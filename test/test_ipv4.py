@@ -1,5 +1,4 @@
 from csirtg_indicator import Indicator
-from csirtg_indicator.exceptions import InvalidIndicator
 from random import randint
 from faker import Faker
 fake = Faker()
@@ -41,7 +40,7 @@ def test_ipv4_nok():
     for d in data:
         try:
             Indicator(indicator=d)
-        except InvalidIndicator as e:
+        except TypeError as e:
             pass
         else:
             raise SystemError('mis-handled network')

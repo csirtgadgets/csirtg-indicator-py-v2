@@ -120,40 +120,40 @@ class Indicator(object):
             return parse_timestamp(v).to('utc').datetime
 
     @property
-    def reporttime(self):
-        return self._reporttime
+    def reported_at(self):
+        return self._reported_at
 
-    @reporttime.getter
-    def reporttime(self):
-        return self._reporttime
+    @reported_at.getter
+    def reported_at(self):
+        return self._reported_at
 
-    @reporttime.setter
-    def reporttime(self, v):
-        self._reporttime = self._time_setter(v)
-
-    @property
-    def lasttime(self):
-        return self._lasttime
-
-    @lasttime.getter
-    def lasttime(self):
-        return self._lasttime
-
-    @lasttime.setter
-    def lasttime(self, v):
-        self._lasttime = self._time_setter(v)
+    @reported_at.setter
+    def reported_at(self, v):
+        self._reported_at = self._time_setter(v)
 
     @property
-    def firsttime(self):
-        return self._firsttime
+    def last_at(self):
+        return self._last_at
 
-    @firsttime.getter
-    def firsttime(self):
-        return self._firsttime
+    @last_at.getter
+    def last_at(self):
+        return self._last_at
 
-    @firsttime.setter
-    def firsttime(self, v):
-        self._firsttime = self._time_setter(v)
+    @last_at.setter
+    def last_at(self, v):
+        self._last_at = self._time_setter(v)
+
+    @property
+    def first_at(self):
+        return self._first_at
+
+    @first_at.getter
+    def first_at(self):
+        return self._first_at
+
+    @first_at.setter
+    def first_at(self, v):
+        self._first_at = self._time_setter(v)
 
     @confidence.setter
     def confidence(self, v):

@@ -1,7 +1,7 @@
 from csirtg_indicator import Indicator
 import json
-from csirtg_indicator.exceptions import InvalidIndicator
 from random import randint, uniform
+
 
 def test_indicator_ipv4():
     i = Indicator('192.168.1.1')
@@ -46,7 +46,7 @@ def test_get_set():
 
     try:
         i.indicator = 'localhost'
-    except InvalidIndicator:
+    except TypeError:
         pass
 
     i.indicator = 'localhost.org'
@@ -61,10 +61,10 @@ def test_get_set():
 
 def test_format_indicator():
     i = Indicator('example.com')
-    i.altid = 'https://csirtg.io/search?q={indicator}'
+    i.reference = 'https://csirtg.io/search?q={indicator}'
 
     i = i.format_keys()
-    assert i.altid == 'https://csirtg.io/search?q=example.com'
+    assert i.reference == 'https://csirtg.io/search?q=example.com'
 
 
 def test_indicator_dest():

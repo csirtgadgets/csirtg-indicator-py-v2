@@ -1,5 +1,4 @@
 from csirtg_indicator import Indicator
-from csirtg_indicator.exceptions import InvalidIndicator
 
 
 def _not(data):
@@ -7,7 +6,7 @@ def _not(data):
         try:
             d = Indicator(d)
             assert d.itype is not 'asn'
-        except InvalidIndicator:
+        except TypeError:
             pass
 
 

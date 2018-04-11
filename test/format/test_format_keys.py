@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
-from csirtg_indicator.indicator import Indicator
+from csirtg_indicator import Indicator
 from pprint import pprint
 
 
@@ -12,7 +12,7 @@ def indicator():
             'provider': "me.com",
             'tlp': "amber",
             'confidence': "85",
-            'reporttime': '2015-01-01T00:00:00Z'
+            'reported_at': '2015-01-01T00:00:00Z'
         }
     return Indicator(**i)
 

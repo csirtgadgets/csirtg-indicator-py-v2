@@ -1,5 +1,4 @@
 from csirtg_indicator import Indicator
-from csirtg_indicator.exceptions import InvalidIndicator
 from faker import Faker
 fake = Faker()
 
@@ -9,7 +8,7 @@ def _not(data):
         try:
             d = Indicator(d)
             assert d.itype is not 'ipv6'
-        except InvalidIndicator:
+        except TypeError:
             pass
 
 

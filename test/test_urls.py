@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from csirtg_indicator import Indicator
-from csirtg_indicator.exceptions import InvalidIndicator
 from csirtg_indicator.utils import url_to_fqdn
 from faker import Faker
 fake = Faker()
@@ -47,7 +46,7 @@ def test_urls_not_ok():
     for d in data:
         try:
             d = Indicator(d)
-        except InvalidIndicator:
+        except TypeError:
             pass
         else:
             raise NotImplementedError

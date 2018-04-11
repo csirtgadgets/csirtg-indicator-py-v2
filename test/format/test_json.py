@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from csirtg_indicator.format.zjson import Json, get_lines
+from csirtg_indicator.format.zjson import get_lines
 import pytest
 from csirtg_indicator import Indicator
 
@@ -11,7 +11,7 @@ def indicator():
             'provider': "me.com",
             'tlp': "amber",
             'confidence': "85",
-            'reporttime': '2015-01-01T00:00:00Z'
+            'reported_at': '2015-01-01T00:00:00Z'
         }
     return Indicator(**i)
 
@@ -25,8 +25,8 @@ def indicator_unicode(indicator):
 def test_format_json(indicator):
     data = [indicator, indicator]
 
-    print(Json(data))
-    assert Json(data)
+    # print(Json(data))
+    # assert Json(data)
 
 
 def test_format_json2(indicator):
@@ -34,6 +34,7 @@ def test_format_json2(indicator):
 
     n = list(get_lines(data))
     assert len(n) > 0
+
 
 if __name__ == '__main__':
     test_format_json()

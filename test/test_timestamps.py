@@ -8,52 +8,52 @@ def test_indicator_timestamps():
     l = arrow.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
     r = arrow.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-    i = Indicator('192.168.1.1', firsttime=f, lasttime=l, reporttime=r)
+    i = Indicator('192.168.1.1', first_at=f, last_at=l, reported_at=r)
 
-    assert i.firsttime == arrow.get(f).datetime
-    assert i.lasttime == arrow.get(l).datetime
-    assert i.reporttime == arrow.get(r).datetime
+    assert i.first_at == arrow.get(f).datetime
+    assert i.last_at == arrow.get(l).datetime
+    assert i.reported_at == arrow.get(r).datetime
 
     s = str(i)
     i = json.loads(s)
 
-    assert i['firsttime'] == f
-    assert i['lasttime'] == l
-    assert i['reporttime'] == r
+    assert i['first_at'].upper() == f
+    assert i['last_at'].upper() == l
+    assert i['reported_at'].upper() == r
 
 
 def test_indicator_timezones():
     t = '2017-03-06T11:41:48-06:00'
     a = arrow.get('2017-03-06T17:41:48Z').datetime
 
-    i = Indicator('example.com', firsttime=t, lasttime=t, reporttime=t)
+    i = Indicator('example.com', first_at=t, last_at=t, reported_at=t)
 
-    assert i.firsttime == a
-    assert i.lasttime == a
-    assert i.reporttime == a
+    assert i.first_at == a
+    assert i.last_at == a
+    assert i.reported_at == a
 
 
-def test_lasttime_only():
+def test_last_at_only():
     l = arrow.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-    i = Indicator('192.168.1.1', lasttime=l)
+    i = Indicator('192.168.1.1', last_at=l)
 
-    assert i.lasttime == arrow.get(l).datetime
+    assert i.last_at == arrow.get(l).datetime
 
     s = str(i)
     i = json.loads(s)
 
-    assert i.get('firsttime') is None
+    assert i.get('first_at') is None
 
 
-def test_firsttime_only():
+def test_first_at_only():
     l = arrow.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-    i = Indicator('192.168.1.1', firsttime=l)
+    i = Indicator('192.168.1.1', first_at=l)
 
-    assert i.firsttime == arrow.get(l).datetime
+    assert i.first_at == arrow.get(l).datetime
 
     s = str(i)
     i = json.loads(s)
 
-    assert i.get('lasttime') is None
+    assert i.get('last_at') is None

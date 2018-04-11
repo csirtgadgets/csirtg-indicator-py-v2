@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-from csirtg_indicator.format.ztable import Table
-from csirtg_indicator.indicator import Indicator
+from csirtg_indicator.format.ztable import get_lines
+from csirtg_indicator import Indicator
 
 
 @pytest.fixture
@@ -12,7 +12,7 @@ def indicator():
             'provider': "me.com",
             'tlp': "amber",
             'confidence': "85",
-            'reporttime': '2015-01-01T00:00:00Z',
+            'reported_at': '2015-01-01T00:00:00Z',
             'asn_desc': u'telefÔnica brasil'
         }
     return Indicator(**i)
@@ -26,14 +26,15 @@ def indicator_unicode(indicator):
 
 def test_format_table(indicator):
 
-    print(Table([indicator]))
-    assert Table([indicator])
+    s = list(get_lines([indicator]))
+    assert len(s) > 0
 
 
 def test_format_table_unicode(indicator_unicode):
 
-    print(Table([indicator_unicode]))
-    assert Table([indicator_unicode])
+    s = list(get_lines([indicator_unicode]))
+    assert len(s) > 0
+
 
 if __name__ == '__main__':
     test_format_table()

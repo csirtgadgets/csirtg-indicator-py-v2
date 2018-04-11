@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from csirtg_indicator.format.zsnort import Snort, get_lines
-from csirtg_indicator.indicator import Indicator
+from csirtg_indicator.format.zsnort import get_lines
+from csirtg_indicator import Indicator
 import pytest
 
 
@@ -14,7 +14,7 @@ def indicator():
         'provider': "me.com",
         'tlp': "amber",
         'confidence': "85",
-        'reporttime': '2015-01-01T00:00:00Z',
+        'reported_at': '2015-01-01T00:00:00Z',
         'itype': 'fqdn',
         'tags': 'botnet'
     }
@@ -26,16 +26,9 @@ def test_format_snort(indicator):
         indicator, indicator
     ]
 
-    text = str(Snort(data))
+    text = "\n".join(list(get_lines(data)))
     assert text
     assert re.findall(RULE_PATTERN, text)
-
-
-def test_format_snort2(indicator):
-    data = [indicator, indicator]
-
-    lines = get_lines(data)
-    assert len(list(lines)) > 0
 
 
 if __name__ == '__main__':
