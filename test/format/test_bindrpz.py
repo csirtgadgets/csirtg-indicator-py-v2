@@ -1,5 +1,5 @@
 import pytest
-from csirtg_indicator.format.zbindrpz import get_lines
+from csirtg_indicator.format.bindrpz import get_lines
 from csirtg_indicator import Indicator
 from pprint import pprint
 import re

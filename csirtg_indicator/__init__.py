@@ -35,7 +35,7 @@ class Indicator(object):
         self.version = VERSION
 
         for k in FIELDS:
-            if k in ['indicator', 'confidence', 'count']:  # handle this at the end
+            if k in ['indicator', 'confidence', 'probability', 'count']:  # handle this at the end
                 continue
 
             if kwargs.get(k) is None:
@@ -55,6 +55,9 @@ class Indicator(object):
 
             setattr(self, k, kwargs[k])
 
+        for k in FIELDS_TIME:
+            setattr(self, k, kwargs.get(k, None))
+
         self._indicator = None
         if indicator:
             self.indicator = indicator
@@ -65,8 +68,8 @@ class Indicator(object):
         self._count = None
         self.count = kwargs.get('count', 1)
 
-        for k in FIELDS_TIME:
-            setattr(self, k, kwargs.get(k, None))
+        self._probability = None
+        self.probability = kwargs.get('probability', 0)
 
         if not self.uuid:
             self.uuid = str(uuid.uuid4())
@@ -102,14 +105,6 @@ class Indicator(object):
             self._indicator = '{}/{}'.format(self._indicator, int(self.mask))
             self.mask = None
 
-    @indicator.getter
-    def indicator(self):
-        return self._indicator
-
-    @property
-    def confidence(self):
-        return self._confidence
-
     def _time_setter(self, v):
         if not v:
             return
@@ -118,6 +113,14 @@ class Indicator(object):
             return v
         else:
             return parse_timestamp(v).to('utc').datetime
+
+    @indicator.getter
+    def indicator(self):
+        return self._indicator
+
+    @property
+    def confidence(self):
+        return self._confidence
 
     @property
     def reported_at(self):
@@ -174,15 +177,6 @@ class Indicator(object):
     @count.getter
     def count(self):
         return self._count
-
-    def magic(self, data):
-        for e in data:
-            try:
-                itype = self.resolve_itype(e)
-                i = Indicator(itype=itype, indicator=e)
-                return i
-            except TypeError:
-                pass
 
     def is_private(self):
         if not self.itype:
@@ -241,7 +235,7 @@ class Indicator(object):
                 v = v.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
             if isinstance(v, basestring):
-                if k is not 'message' and not k.endswith('time'):
+                if k is not 'message' and not k.endswith('_at'):
                     v = v.lower()
 
             if k == 'confidence':

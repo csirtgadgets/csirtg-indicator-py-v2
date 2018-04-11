@@ -1,5 +1,5 @@
 from pprint import pprint
-import socket
+import os, socket
 import re
 import ipaddress
 from ..constants import PYVERSION, RE_IPV4, RE_IPV4_CIDR, RE_IPV4_PADDING, RE_IPV6, RE_FQDN, RE_ASN, RE_EMAIL, \
@@ -8,7 +8,9 @@ from ..constants import PYVERSION, RE_IPV4, RE_IPV4_CIDR, RE_IPV4_PADDING, RE_IP
 from .ztime import parse_timestamp
 
 try:
+    # py3
     from urllib.parse import urlparse
+    import importlib
 except ImportError:
     # py2
     from urlparse import urlparse
@@ -16,6 +18,14 @@ except ImportError:
 
 def ipv4_normalize(i):
     return RE_IPV4_PADDING.sub(r'\1\2', i)
+
+
+def load_plugin(path, plugin):
+    path = os.path.join(path, ('%s.py' % plugin))
+    spec = importlib.util.spec_from_file_location(path, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def resolve_itype(indicator, test_broken=False):

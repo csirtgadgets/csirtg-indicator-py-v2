@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from csirtg_indicator.format.zsnort import get_lines
+from csirtg_indicator.format.snort import get_lines
 from csirtg_indicator import Indicator
 import pytest
 

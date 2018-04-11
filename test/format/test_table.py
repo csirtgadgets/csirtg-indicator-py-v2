@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
-from csirtg_indicator.format.ztable import get_lines
+from csirtg_indicator.format.table import get_lines
 from csirtg_indicator import Indicator
 
 

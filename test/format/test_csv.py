@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from csirtg_indicator import Indicator
 import pytest
-from csirtg_indicator.format.zcsv import get_lines
+from csirtg_indicator.format.csv import get_lines
 
 
 @pytest.fixture
