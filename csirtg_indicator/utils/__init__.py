@@ -28,6 +28,14 @@ def load_plugin(path, plugin):
     return module
 
 
+def is_valid(i):
+    try:
+        resolve_itype(i)
+        return True
+    except TypeError as e:
+        return False
+
+
 def resolve_itype(indicator, test_broken=False):
     def _ipv6(s):
         try:
