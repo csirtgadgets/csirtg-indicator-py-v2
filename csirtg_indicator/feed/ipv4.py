@@ -37,8 +37,9 @@ def _normalize(i):
 
     return i
 
+
 # https://github.com/jsommers/pytricia
-def process(data, whitelist=[]):
+def process(data=[], whitelist=[]):
     wl = pytricia.PyTricia()
     for x in PERM_WHITELIST:
         wl[x] = True

@@ -15,4 +15,26 @@ def process(data, whitelist, itype=None):
 
     # this is left for specific itypes, hashes, urls, things that are generally not a range
     # yield the indicator if whitelist isn't in it's tag, and it's not in the whitelist
-    [(yield x) for x in data if 'whitelist' not in set(x['tags']) and x['indicator'] not in set(whitelist)]
+
+    whitelist = set(whitelist)
+
+    for i in data:
+        if 'whitelist' in set(i['tags']):
+            continue
+
+        if i['indicator'] in whitelist:
+            continue
+
+        yield i
+
+
+def aggregate(data, field='indicator', sort='confidence', sort_secondary='reported_at'):
+    x = set()
+    rv = []
+    for d in sorted(data, key=lambda x: x[sort], reverse=True):
+        if d[field] not in x:
+            x.add(d[field])
+            rv.append(d)
+
+    rv = sorted(rv, key=lambda x: x[sort_secondary], reverse=True)
+    return rv

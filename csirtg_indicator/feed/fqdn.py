@@ -39,7 +39,7 @@ def process(data, whitelist):
         if 'whitelist' in set(i['tags']):
             continue
 
-        if i in PERM_WHITELIST or i in whitelist:
+        if i['indicator'] in PERM_WHITELIST or i['indicator'] in whitelist:
             return True
 
         if match_whitelist(i['indicator'], whitelist):
