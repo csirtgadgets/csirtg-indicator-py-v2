@@ -2,17 +2,15 @@ sudo: required
 dist: trusty
 language: python
 cache: pip
-
 python:
-#    - 2.7
-    - 3.6
+  - 3.6
 
 before_install:
-    - pip install -r dev_requirements.txt
+  - pip install -r dev_requirements.txt
 
 script:
-    - python setup.py test
-    - python setup.py sdist
+  - python setup.py test
+  - python setup.py sdist
 
 notifications:
   email:
@@ -20,11 +18,11 @@ notifications:
     on_failure: never
 
 deploy:
-    provider: pypi
-    user: wesyoung
-    password:
-        secure: NhxGn+hNgDKqbuQ9DrBhCjaThTeYkoj0TDuFb/dxqOps8bH6334t3ZfpYe3oVYecWpWABKKdX5AVS3uoSya/wo/2+XUbxO0AY9/fFlkGXV+PtwlOF828eEq8mh7JRqMZFS5lzHkpmiVeg5a2zZd2bq+4KcIUovCqnh4Dc8obJnPdgrATNdLEUJ4ggpGmgCn0OwbZ8LjoYVodU2teZ8t9PBSYzsPmoniFX1js6FwUg8t33m/3ce7pIrFnH5hfW7u86PrCvzcIX0wrLA6KNSsfW7nYlqRgsnwXJbSsjk2dENcE1yJk6GiSo0QmaOPz7+q4J3BnpZ6L79uuMjjd/dyfVkQy1tg6t0wLrBcI/sB9pWQwJT4qhv+Bt0di3sjbaJZRe8Hln7exz4hMRavEpAHZ6FNz/Xd45eygXt0IO27I6s1ebRAqAIQdvFX/OSdhyoxJDrQTVgVQrSAS0luuBq1ACQOWwlk4sz3p4zqRg0tggIFIdwO2N+tMB/TjoY2DAy3FxpBhEIUUq8LN8usFKbdOUEcXxGJ5axZRd3GRJO52X/rqiSrDCDSNv8Z/T16nXwh1scf4HhwLo0MEyxGyy2GsgUFbH3g8oDCXMj16A8E4LEw2XZ4n1k8cJytCX+PBLWMkFdmToF+QnLPO1pD8pErOoxib7dZZY/B4gOJuEXd5kHk=
-    on:
-        branch: master
-        tags: true
-        condition: $TRAVIS_PYTHON_VERSION = "3.6"
+  provider: pypi
+  user: wesyoung
+  password:
+    secure: hgNut7wtQ6l/3ifq792kMpe5mnu+C/Yg33LmbAVn8M1KMbZTALzZWHjTJxSe5Wuqjle9Cq0hOOFMrLFy20GylGVoew2iQ+rom6gJgdo9yYkbvpqxt8SRSdZawIS6aMUZazkXZX+DJWOnjqhP9ukNMSuhUAgDWvmIaSSJC0fN5Lvr9khBYmYeUp285UwuvIi0vS8aRL+rhPkRFfZHykHuJCylzuK6bU9cJ8xF2lMrcsQeCp/uBvqsnTDdTpHH/P6osdBRxMzMIG50sdpkC9NGxTNCGjkepyK0lmnpOwonYg81Lm1x59GedaeRrhgjGf4you6si6Ih6M8a350ST7YaBN3yFnTF1Vz/R+QiDZT9E7llrH5R+IOyk0c0yyw8quAYAG+1tZeLcOqLVQwYRGc9kkj6YmldV0bReptlw33F/KElfSMUzwt97oqkGtE+wGAxSRg1FfWWLER4kQYqyPZ+o/4+WGc6y140CQuxnuAx8AGktwiRvTHML5lDPgnnbcN2w2+lOvNGm736hEVonhcpR2JuQpPyBChivcFWLeP8Upj8XyVnzuceJCVeiFrIJhW0xF3ysFfMFNgET8zHnhKV1CERV6o8/oa89bkVjNZC4on6rtDRxcdBWwcgjH1trocUwCtX64TO1y5+/SrVdEekpL+/bDoCy8QNyxeTufyv5Y4=
+  on:
+    branch: master
+    tags: true
+    condition: $TRAVIS_PYTHON_VERSION = "3.6"
