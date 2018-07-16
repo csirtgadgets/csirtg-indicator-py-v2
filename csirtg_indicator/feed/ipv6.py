@@ -1,4 +1,5 @@
 import pytricia
+import ipaddress
 
 PERM_WHITELIST = [
     ## TODO -- more
@@ -16,4 +17,17 @@ def process(data, whitelist=[]):
 
     [wl.insert(str(y['indicator']), True) for y in whitelist]
 
-    [(yield i) for i in data if not 'whitelist' in set(i['tags']) and str(i['indicator']) not in wl]
+    # [(yield i) for i in data if not 'whitelist' in set(i['tags']) and str(i['indicator']) not in wl]
+
+    for i in data:
+        if 'whitelist' in set(i['tags']):
+            continue
+
+        try:
+            ipaddress.ip_network(i['indicator'])
+
+        except ValueError as e:
+            print('skipping invalid address: %s' % i['indicator'])
+
+        if str(i['indicator']) not in wl:
+            yield i

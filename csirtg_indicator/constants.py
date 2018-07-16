@@ -12,8 +12,8 @@ if sys.version_info > (3,):
 LOG_FORMAT = '%(asctime)s - %(levelname)s - %(name)s[%(lineno)s] - %(message)s'
 PROTOCOL_VERSION = '2.0.0-a.1'
 
-COLUMNS = ['tlp', 'group', 'reported_at', 'indicator', 'first_at', 'last_at', 'count', 'tags', 'description',
-                  'confidence', 'rdata', 'provider', 'probability', 'reference']
+COLUMNS = ['tlp', 'group', 'reported_at', 'indicator', 'asn', 'cc', 'first_at', 'last_at', 'count', 'tags',
+           'description', 'confidence', 'rdata', 'provider', 'probability', 'reference']
 
 MAX_FIELD_SIZE = 30
 
