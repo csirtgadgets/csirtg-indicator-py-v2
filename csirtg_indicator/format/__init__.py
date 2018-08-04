@@ -5,6 +5,7 @@ from .csv import get_lines as get_lines_csv
 from .json import get_lines as get_lines_json
 from .snort import get_lines as get_lines_snort
 from .table import get_lines as get_lines_table
+from .gexf import get_lines as get_lines_gexf
 
 
 FORMATS = {
@@ -15,4 +16,5 @@ FORMATS = {
     'json': get_lines_json,
     'snort': get_lines_snort,
     'table': get_lines_table,
+    'gexf': get_lines_gexf,
 }
