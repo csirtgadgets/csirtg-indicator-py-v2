@@ -50,7 +50,8 @@ setup(
         'ipaddress',
         'pendulum',
         'prettytable',
-        'Faker'
+        'Faker',
+        'networkx'
     ],
     entry_points={
        'console_scripts': [
