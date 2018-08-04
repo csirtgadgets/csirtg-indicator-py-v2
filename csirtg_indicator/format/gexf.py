@@ -24,4 +24,9 @@ def get_lines(data, path=PATH):
             g.add_edge(i['indicator'], i[a])
 
     nx.write_gexf(g, path, prettyprint=True)
-    return []
+
+    # import matplotlib.pyplot as plt
+    # nx.draw(g, with_labels=True)
+    # plt.draw()
+    # plt.show()
+    return ['Graph generated successfully: %s' % path]
