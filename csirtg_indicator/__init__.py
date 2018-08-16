@@ -74,6 +74,11 @@ class Indicator(object):
         if not self.uuid:
             self.uuid = str(uuid.uuid4())
 
+        self.resolve_geo = kwargs.get('geo', False)
+
+        if self.resolve_geo:
+            self.geo()
+
     @property
     def indicator(self):
         return self.__indicator
@@ -178,6 +183,10 @@ class Indicator(object):
     def count(self):
         return self._count
 
+    def geo(self):
+        from .utils.geo import process
+        process(self)
+
     def is_private(self):
         if not self.itype:
             return False
@@ -217,6 +226,10 @@ class Indicator(object):
 
     def __repr__(self):
         i = {}
+
+        if self.resolve_geo and not self.asn:
+            self.geo()
+
         for k in FIELDS:
 
             v = getattr(self, k)
@@ -278,7 +291,7 @@ def main():
     p.add_argument('-V', '--version', action='version', version=VERSION)
 
     p.add_argument('--group', help="specify group")
-    p.add_argument('--indicator', help="specify indicator")
+    p.add_argument('--indicator', '-i', help="specify indicator")
     p.add_argument('--tlp', help='specify tlp', default='green')
     p.add_argument('--tags', help='specify tags')
 
