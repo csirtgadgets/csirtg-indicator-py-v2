@@ -55,7 +55,7 @@ setup(
     ],
     entry_points={
        'console_scripts': [
-           'csirtg-indicator=csirtg_indicator.indicator:main',
+           'csirtg-indicator=csirtg_indicator:main',
        ]
     },
 )

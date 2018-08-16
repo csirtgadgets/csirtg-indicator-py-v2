@@ -6,6 +6,11 @@ python:
   - 3.6
 
 before_install:
+  - apt-get install geoipupdate
+  - geoipupdate -v
+  - echo 'UserId 999999' >> /etc/GeoIP.conf
+  - echo 'LicenseKey 000000000000' >> /etc/GeoIP.conf
+  - echo 'ProductIds GeoLite2-Country GeoLite2-City GeoLite2-ASN' >> /etc/GeoIP.conf
   - pip install -r dev_requirements.txt
 
 script:
