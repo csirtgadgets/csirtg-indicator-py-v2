@@ -15,6 +15,9 @@ def human_to_dt(ts):
     if ts == 'day':
         return t.replace(hour=0, minute=0, second=0, microsecond=0)
 
+    if ts == 'week':
+        return t.replace(day=7, hour=0, minute=0, second=0, microsecond=0)
+
     if ts == 'month':
         return t.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 

@@ -3,7 +3,7 @@ __version__ = get_versions()['version']
 VERSION = __version__
 del get_versions
 
-import sys, re
+import sys, os, re
 
 PYVERSION = 2
 if sys.version_info > (3,):
@@ -82,3 +82,12 @@ RE_HASH = {
 }
 
 RE_IPV4_PADDING = re.compile(r"(^|\.)0+([^/.])")
+
+
+GEO = os.getenv('CSIRTG_INDICATOR_GEO', False)
+if GEO == '1':
+    GEO = True
+
+PEERS = os.getenv('CSIRTG_INDICATOR_PEERS', False)
+if PEERS == '1':
+    PEERS = True
