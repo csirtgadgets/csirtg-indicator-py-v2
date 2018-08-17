@@ -11,7 +11,8 @@ from base64 import b64encode
 import logging
 import uuid
 
-from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, FIELDS, FIELDS_TIME, LOG_FORMAT, VERSION
+from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, FIELDS, FIELDS_TIME, LOG_FORMAT, VERSION, GEO, \
+    PEERS
 from .utils import parse_timestamp, resolve_itype, is_subdomain, ipv4_normalize
 
 
@@ -74,10 +75,14 @@ class Indicator(object):
         if not self.uuid:
             self.uuid = str(uuid.uuid4())
 
-        self.resolve_geo = kwargs.get('geo', False)
+        self.resolve_geo = kwargs.get('resolve_geo', GEO)
+        self.resolve_peers = kwargs.get('resolve_peers', PEERS)
 
         if self.resolve_geo:
-            self.geo()
+            self.geo_resolve()
+
+        if self.resolve_peers:
+            self.peers_resolve()
 
     @property
     def indicator(self):
@@ -183,9 +188,13 @@ class Indicator(object):
     def count(self):
         return self._count
 
-    def geo(self):
+    def geo_resolve(self):
         from .utils.geo import process
         process(self)
+
+    def peers_resolve(self):
+        from .utils.network import resolve_peers
+        resolve_peers(self)
 
     def is_private(self):
         if not self.itype:
