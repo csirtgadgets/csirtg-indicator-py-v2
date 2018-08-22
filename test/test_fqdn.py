@@ -43,6 +43,13 @@ def test_fqdn_ok():
         assert d.itype is 'fqdn'
 
 
+def test_fqdn_resolve_ok():
+
+    for d in ['csirtgadgets.com', 'csirtg.io', 'http://csirtg.io']:
+        d = Indicator(d, resolve_fqdn=True)
+        assert len(d.ns) > 0
+
+
 def test_fqdn_subdomain():
     data = [
         'www.yahoo.com',
@@ -52,7 +59,6 @@ def test_fqdn_subdomain():
     for d in data:
         print(Indicator(indicator=d).is_subdomain())
         assert Indicator(indicator=d).is_subdomain()
-
 
     data = [
         'yahoo.com',
