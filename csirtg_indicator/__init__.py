@@ -237,7 +237,7 @@ class Indicator(object):
         i = {}
 
         if self.resolve_geo and not self.asn:
-            self.geo()
+            self.geo_resolve()
 
         for k in FIELDS:
 
