@@ -12,7 +12,7 @@ import logging
 import uuid
 
 from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, FIELDS, FIELDS_TIME, LOG_FORMAT, VERSION, GEO, \
-    PEERS
+    PEERS, FQDN
 from .utils import parse_timestamp, resolve_itype, is_subdomain, ipv4_normalize
 
 
@@ -77,12 +77,16 @@ class Indicator(object):
 
         self.resolve_geo = kwargs.get('resolve_geo', GEO)
         self.resolve_peers = kwargs.get('resolve_peers', PEERS)
+        self.resolve_fqdn = kwargs.get('resolve_fqdn', FQDN)
 
         if self.resolve_geo:
             self.geo_resolve()
 
         if self.resolve_peers:
             self.peers_resolve()
+
+        if self.resolve_fqdn:
+            self.fqdn_resolve()
 
     @property
     def indicator(self):
@@ -195,6 +199,39 @@ class Indicator(object):
     def peers_resolve(self):
         from .utils.network import resolve_peers
         resolve_peers(self)
+
+    def fqdn_resolve(self):
+        if self.itype not in ['url', 'fqdn']:
+            return
+
+        from .utils.network import resolve_fqdn, resolve_ns, resolve_url
+
+        d = self.indicator
+        if self.itype == 'url':
+            d = resolve_url(self.indicator)
+            if not d:
+                return
+
+        r = resolve_fqdn(d)
+        if not r:
+            return
+
+        setattr(self, 'rdata', r)
+        setattr(self, 'rtype', 'A')
+
+        r = resolve_ns(d, t='NS')
+        if not r:
+            return
+
+        r = [str(rr) for rr in r]
+        setattr(self, 'ns', r)
+
+        r = resolve_ns(d, t='MX')
+        if not r:
+            return
+
+        r = [str(rr) for rr in r]
+        setattr(self, 'mx', r)
 
     def is_private(self):
         if not self.itype:

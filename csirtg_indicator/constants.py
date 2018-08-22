@@ -52,7 +52,11 @@ FIELDS_IP = [
     'portlist', 'protocol', 'asn', 'asn_desc', 'dest', 'dest_portlist', 'mask', 'rdata', 'peers'
 ]
 
-FIELDS = FIELDS_CORE + FIELDS_GEO + FIELDS_META + FIELDS_IP + FIELDS_TIME
+FIELDS_FQDN = [
+    'ns', 'mx', 'cname'
+]
+
+FIELDS = FIELDS_CORE + FIELDS_GEO + FIELDS_META + FIELDS_IP + FIELDS_TIME + FIELDS_FQDN
 
 
 # regexes
@@ -91,3 +95,7 @@ if GEO == '1':
 PEERS = os.getenv('CSIRTG_INDICATOR_PEERS', False)
 if PEERS == '1':
     PEERS = True
+
+FQDN = os.getenv('CSIRTG_INDICATORS_RESOLVE_FQDN', False)
+if FQDN == '1':
+    FQDN = True
