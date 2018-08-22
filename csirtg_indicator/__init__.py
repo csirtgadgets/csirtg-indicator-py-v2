@@ -233,6 +233,13 @@ class Indicator(object):
         r = [str(rr) for rr in r]
         setattr(self, 'mx', r)
 
+        r = resolve_ns(d, t='CNAME')
+        if not r:
+            return
+
+        r = [str(rr) for rr in r]
+        setattr(self, 'cname', r)
+
     def is_private(self):
         if not self.itype:
             return False
