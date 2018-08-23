@@ -83,3 +83,8 @@ def test_ipv4_padded():
 def test_ipv4_random():
     for d in range(0, 100):
         assert Indicator(indicator=fake.ipv4()).itype == 'ipv4'
+
+
+def test_spamhaus():
+    i = Indicator('71.6.146.130', resolve_geo=True)
+    assert i.spamhaus()

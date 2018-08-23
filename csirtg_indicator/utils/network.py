@@ -26,11 +26,15 @@ def resolve_url(url):
     return u.hostname
 
 
-def resolve_ns(data, t='A', timeout=TIMEOUT):
+def resolve_ns(data, t='A', timeout=TIMEOUT, nameserver=None):
     resolver = dns.resolver.Resolver()
     resolver.timeout = timeout
     resolver.lifetime = timeout
     resolver.search = []
+
+    if nameserver:
+        resolver.nameservers = [nameserver]
+
     try:
         answers = resolver.query(data, t)
         resp = []

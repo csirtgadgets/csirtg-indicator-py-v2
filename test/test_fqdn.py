@@ -81,3 +81,7 @@ def test_fqdn_random():
     for d in range(0, 100):
         assert Indicator(indicator=fake.domain_name()).itype == 'fqdn'
 
+
+def test_spamhaus():
+    i = Indicator('ns2.ndxylfpxuwowlhycfh.pw', resolve_geo=True)
+    assert i.spamhaus()

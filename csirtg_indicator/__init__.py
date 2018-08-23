@@ -128,6 +128,15 @@ class Indicator(object):
         if self.itype == 'email':
             return True
 
+    def spamhaus(self):
+        from csirtg_indicator.utils.spamhaus import ip, fqdn
+        if self.is_ip():
+            return ip.process(self, resolve_geo=self.resolve_geo)
+        elif self.is_fqdn():
+            return fqdn.process(self, resolve_geo=self.resolve_geo)
+        else:
+            return None
+
     @property
     def indicator(self):
         return self.__indicator
