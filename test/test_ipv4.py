@@ -1,7 +1,10 @@
 from csirtg_indicator import Indicator
-from random import randint
+import pytest
 from faker import Faker
 fake = Faker()
+import os
+
+DISABLE_FAST_TESTS = os.getenv('DISABLE_NETWORK_TESTS', False)
 
 
 def _not(data):
@@ -83,3 +86,9 @@ def test_ipv4_padded():
 def test_ipv4_random():
     for d in range(0, 100):
         assert Indicator(indicator=fake.ipv4()).itype == 'ipv4'
+
+
+@pytest.mark.skipif(DISABLE_FAST_TESTS, reason='spamhaus test disabled')
+def test_spamhaus():
+    i = Indicator('71.6.146.130', resolve_geo=True)
+    assert i.spamhaus()
