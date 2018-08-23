@@ -1,6 +1,8 @@
 from csirtg_indicator import Indicator
 import json
 from random import randint, uniform
+from pprint import pprint
+import arrow
 
 
 def test_indicator_ipv4():
@@ -110,3 +112,24 @@ def test_eq():
 
     u2.uuid = u1.uuid
     assert u1 == u2
+
+
+def test_copy():
+    i1 = Indicator('128.205.1.1', tags='malware')
+    i2 = i1.copy(tags='pdns', reported_at=arrow.utcnow())
+
+    assert i1 != i2
+    assert i1.tags != i2.tags
+    assert i1.uuid != i2.uuid
+
+
+def test_is_itype():
+    assert Indicator('128.205.1.1', tags='malware').is_ipv4
+    assert Indicator('128.205.1.1', tags='malware').is_ip
+    assert Indicator('example.com', tags='malware').is_fqdn
+    assert Indicator('http://example.com', tags='malware').is_url
+
+
+def test_get_attr():
+    i = Indicator('128.205.1.1', tags='malware')
+    assert i.get('tags')
