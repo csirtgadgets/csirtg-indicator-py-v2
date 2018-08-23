@@ -11,6 +11,7 @@ from base64 import b64encode
 import logging
 import uuid
 import copy
+import arrow
 
 from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, FIELDS, FIELDS_TIME, LOG_FORMAT, VERSION, GEO, \
     PEERS, FQDN
@@ -97,7 +98,9 @@ class Indicator(object):
         i.uuid = str(uuid.uuid4())
         if not isinstance(i.tags, list):
             i.tags = [i.tags]
-        
+
+        if not kwargs.get('last_at'):
+            setattr(i, 'last_at', arrow.utcnow())
         return i
 
     def is_fqdn(self):
@@ -310,6 +313,12 @@ class Indicator(object):
 
     def is_subdomain(self):
         return is_subdomain(self.indicator)
+
+    def ipv4_to_prefix(self, n=24):
+        prefix = self.indicator.split('.')
+        prefix = prefix[:3]
+        prefix.append('0/%i' % n)
+        return '.'.join(prefix)
 
     def format_keys(self):
         d = self.__dict__()
