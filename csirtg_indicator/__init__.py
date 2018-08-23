@@ -10,6 +10,7 @@ import pytricia
 from base64 import b64encode
 import logging
 import uuid
+import copy
 
 from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, FIELDS, FIELDS_TIME, LOG_FORMAT, VERSION, GEO, \
     PEERS, FQDN
@@ -87,6 +88,45 @@ class Indicator(object):
 
         if self.resolve_fqdn:
             self.fqdn_resolve()
+
+    def copy(self, **kwargs):
+        i = Indicator(**copy.deepcopy(self.__dict__()))
+        for k in kwargs:
+            setattr(i, k, kwargs[k])
+
+        i.uuid = str(uuid.uuid4())
+        if not isinstance(i.tags, list):
+            i.tags = [i.tags]
+        
+        return i
+
+    def is_fqdn(self):
+        if self.itype == 'fqdn':
+            return True
+
+    def is_ip(self):
+        if self.itype in ['ipv4', 'ipv6']:
+            return True
+
+    def is_ipv4(self):
+        if self.itype == 'ipv4':
+            return True
+
+    def is_ipv6(self):
+        if self.itype == 'ipv6':
+            return True
+
+    def is_url(self):
+        if self.itype == 'url':
+            return True
+
+    def is_hash(self):
+        if self.itype in ['md5', 'sha1', 'sha256', 'sha512']:
+            return True
+
+    def is_email(self):
+        if self.itype == 'email':
+            return True
 
     @property
     def indicator(self):
@@ -192,6 +232,12 @@ class Indicator(object):
     def count(self):
         return self._count
 
+    def get(self, v, default=None):
+        v1 = getattr(self, v)
+        if v1:
+            return v1
+        return default
+
     def geo_resolve(self):
         from .utils.geo import process
         process(self)
@@ -213,28 +259,31 @@ class Indicator(object):
                 return
 
         r = resolve_fqdn(d)
-        if not r:
+        if not r or r in ["", "localhost"]:
             return
+
+        if not isinstance(r, list):
+            r = [r]
 
         setattr(self, 'rdata', r)
         setattr(self, 'rtype', 'A')
 
         r = resolve_ns(d, t='NS')
-        if not r:
+        if not r or r in ["", "localhost"]:
             return
 
         r = [str(rr) for rr in r]
         setattr(self, 'ns', r)
 
         r = resolve_ns(d, t='MX')
-        if not r:
+        if not r or r in ["", "localhost"]:
             return
 
         r = [str(rr) for rr in r]
         setattr(self, 'mx', r)
 
         r = resolve_ns(d, t='CNAME')
-        if not r:
+        if not r or r in ["", "localhost"]:
             return
 
         r = [str(rr) for rr in r]

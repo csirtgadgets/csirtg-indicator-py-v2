@@ -49,6 +49,11 @@ def test_fqdn_resolve_ok():
         d = Indicator(d, resolve_fqdn=True)
         assert len(d.ns) > 0
 
+    for d in ['csirtgadgets.com', 'csirtg.io', 'http://csirtg.io']:
+        d = Indicator(d)
+        d.fqdn_resolve()
+        assert len(d.ns) > 0
+
 
 def test_fqdn_subdomain():
     data = [
