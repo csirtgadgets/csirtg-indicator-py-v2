@@ -1,8 +1,11 @@
 from csirtg_indicator import Indicator
-from csirtg_indicator.utils import is_subdomain
 from faker import Faker
+import os
+import pytest
+
 fake = Faker()
 
+DISABLE_FAST_TESTS = os.getenv('DISABLE_NETWORK_TESTS', False)
 
 GOOD = [
     'hdxturkceizle.xn--6frz82g',
@@ -82,6 +85,7 @@ def test_fqdn_random():
         assert Indicator(indicator=fake.domain_name()).itype == 'fqdn'
 
 
+@pytest.mark.skipif(DISABLE_FAST_TESTS, reason='spamhaus test disabled')
 def test_spamhaus():
     i = Indicator('ns2.ndxylfpxuwowlhycfh.pw', resolve_geo=True)
     assert i.spamhaus()
