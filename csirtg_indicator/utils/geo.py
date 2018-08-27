@@ -14,7 +14,7 @@ DB_SEARCH_PATHS = [
     '/usr/share/GeoIP',
     '/usr/local/share/GeoIP',
     '/usr/local/var/GeoIP',
-    '/var/lib/GeoIP'
+    '/var/lib/GeoIP',
     './',
 ]
 
