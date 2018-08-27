@@ -91,16 +91,22 @@ class Indicator(object):
             self.fqdn_resolve()
 
     def copy(self, **kwargs):
-        i = Indicator(**copy.deepcopy(self.__dict__()))
-        for k in kwargs:
-            setattr(i, k, kwargs[k])
+        try:
+            i = Indicator(**copy.deepcopy(self.__dict__()))
 
-        i.uuid = str(uuid.uuid4())
-        if not isinstance(i.tags, list):
-            i.tags = [i.tags]
+            for k in kwargs:
+                setattr(i, k, kwargs[k])
 
-        if not kwargs.get('last_at'):
-            setattr(i, 'last_at', arrow.utcnow())
+            i.uuid = str(uuid.uuid4())
+            if not isinstance(i.tags, list):
+                i.tags = [i.tags]
+
+            if not kwargs.get('last_at'):
+                setattr(i, 'last_at', arrow.utcnow())
+
+        except TypeError:
+            i = None
+
         return i
 
     def is_fqdn(self):
