@@ -257,18 +257,18 @@ class Indicator(object):
         return default
 
     def geo_resolve(self):
-        from .utils.geo import process
+        from csirtg_indicator.utils.geo import process
         process(self)
 
     def peers_resolve(self):
-        from .utils.network import resolve_peers
+        from csirtg_indicator.utils.network import resolve_peers
         resolve_peers(self)
 
     def fqdn_resolve(self):
         if self.itype not in ['url', 'fqdn']:
             return
 
-        from .utils.network import resolve_fqdn, resolve_ns, resolve_url
+        from csirtg_indicator.utils.network import resolve_fqdn, resolve_ns, resolve_url
 
         d = self.indicator
         if self.itype == 'url':
