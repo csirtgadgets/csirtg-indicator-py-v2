@@ -31,18 +31,19 @@ def match_whitelist(i, whitelist):
 
 
 def process(data, whitelist):
-    if not isinstance(whitelist, set):
-        whitelist = set(whitelist)
+    wl = set()
+    for v in whitelist:
+        wl.add(v['indicator'])
 
     # easier to read and understand than a sexy one-liner
     for i in data:
         if 'whitelist' in set(i['tags']):
             continue
 
-        if i['indicator'] in PERM_WHITELIST or i['indicator'] in whitelist:
-            return True
+        if i['indicator'] in PERM_WHITELIST or i['indicator'] in wl:
+            continue
 
-        if match_whitelist(i['indicator'], whitelist):
+        if match_whitelist(i['indicator'], list(wl)):
             continue
 
         yield i
