@@ -264,6 +264,14 @@ class Indicator(object):
         from csirtg_indicator.utils.network import resolve_peers
         resolve_peers(self)
 
+    def fqdn(self):
+        if self.itype == 'fqdn':
+            return self.indicator
+
+        if self.itype == 'url':
+            from .utils import url_to_fqdn
+            return url_to_fqdn(self.indicator)
+
     def fqdn_resolve(self):
         if self.itype not in ['url', 'fqdn']:
             return
@@ -339,6 +347,64 @@ class Indicator(object):
             raise SystemExit
 
         return Search(Client()).search(self.indicator, limit=5)
+
+    def cif(self):
+        try:
+            from cifsdk.client.http import HTTP as Client
+        except ImportError:
+            print('')
+            print('The cif function requires the cifsdk>=4.0')
+            print('$ pip install https://github.com/csirtgadgets/verbose-robot-sdk-py/archive/master.zip')
+            print('$ export CIF_TOKEN=1234...')
+            print('')
+            raise SystemExit
+
+        return Client().search({'q': self.indicator, 'limit': 25})
+
+    def farsight(self):
+        if self.itype != 'ipv4':
+            raise TypeError('%s is not supported' % self.itype)
+
+        try:
+            from csirtg_dnsdb.client import Client
+        except ImportError:
+            print('')
+            print('The csirtg function requires the csirtg_dnsdb client')
+            print('https://github.com/csirtgadgets/dnsdb-py')
+            print('$ pip install csirtg_dnsdb')
+            print('$ export FARSIGHT_TOKEN=1234...')
+            print('')
+            raise SystemExit
+
+        return Client().search(self.indicator)
+
+    def predict(self):
+        if self.itype not in ['url', 'fqdn', 'ipv4']:
+            raise TypeError('%s is not supported' % self.itype)
+
+        try:
+            if self.itype == 'ipv4':
+                from .utils.predict import predict_ips
+                p = predict_ips(self)
+                return [p[0].probability]
+
+            if self.itype == 'fqdn':
+                from .utils.predict import predict_fqdns
+                p = predict_fqdns(self)
+                return [p[0].probability]
+
+            if self.itype == 'url':
+                from .utils.predict import predict_urls
+                p = predict_urls(self)
+                return [p[0].probability]
+
+        except ImportError:
+            print('')
+            print('This requires the csirtg_ipsml_tf, csirtg_domainsml_tf and csirtg_urlsml_tf frameworks')
+            print('https://csirtgadgets.com/?tag=machine-learning')
+            print('$ pip install csirtg_ipsml_tf csirtg_domainsml_tf csirtg_urlsml_tf')
+            print('')
+            raise SystemExit
 
     def format_keys(self):
         d = self.__dict__()
