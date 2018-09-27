@@ -29,6 +29,9 @@ def test_format_table(indicator):
     s = list(get_lines([indicator]))
     assert len(s) > 0
 
+    n = indicator.to_table()
+    assert "example.com" in n
+
 
 def test_format_table_unicode(indicator_unicode):
 

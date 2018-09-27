@@ -27,3 +27,7 @@ def test_format_csv(indicator):
 
     n = list(get_lines([indicator, indicator]))
     assert len(n) > 0
+
+    n = indicator.to_csv()
+    assert "example.com" in n
+

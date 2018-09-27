@@ -68,6 +68,9 @@ def get_lines(data, cols=COLUMNS):
     output.write("{0}\n".format(HEADER))
     cols = ['indicator', 'itype', 'tags', 'confidence', 'provider']
 
+    if not isinstance(data, list):
+        data = [data]
+
     for i in data:
         i = _i_to_bro(i, cols)
 

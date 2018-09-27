@@ -10,6 +10,9 @@ PATH = os.getenv('GEXF_PATH', 'indicators.gexf')
 def get_lines(data, path=PATH):
     g = nx.Graph()
 
+    if not isinstance(data, list):
+        data = [data]
+
     for i in data:
         g.add_node(i['indicator'], itype=i['itype'])
         # for t in i.get('tags', []):

@@ -42,6 +42,10 @@ def _indicator_row(i, cols, max_field_size):
 
 def get_lines(data, cols=COLUMNS, max_field_size=MAX_FIELD_SIZE):
     t = PrettyTable(cols)
+
+    if not isinstance(data, list):
+        data = [data]
+
     for i in data:
 
         t.add_row(_indicator_row(i, cols, max_field_size))
