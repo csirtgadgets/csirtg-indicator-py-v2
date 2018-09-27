@@ -17,6 +17,9 @@ def get_lines(data, cols=COLUMNS, quoting=csv.QUOTE_ALL):
     csvWriter = csv.DictWriter(output, cols, quoting=quoting)
     csvWriter.writeheader()
 
+    if not isinstance(data, list):
+        data = [data]
+
     for i in data:
         if isinstance(i, Indicator):
             i = i.__dict__()
