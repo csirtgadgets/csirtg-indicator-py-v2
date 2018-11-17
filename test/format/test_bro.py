@@ -30,6 +30,9 @@ def test_format_bro(indicator, indicator_unicode):
     n = list(get_lines(data))
     assert len(n) > 0
 
+    n = indicator.to_bro()
+    assert "xz.job391.com" in n
+
 
 def test_format_bro_random(indicator):
     for d in range(0, 100):

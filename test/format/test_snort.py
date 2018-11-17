@@ -30,6 +30,9 @@ def test_format_snort(indicator):
     assert text
     assert re.findall(RULE_PATTERN, text)
 
+    n = indicator.to_snort()
+    assert "example.com" in n
+
 
 if __name__ == '__main__':
     test_format_snort()
