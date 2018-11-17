@@ -14,6 +14,9 @@ except ImportError:
 
 
 def resolve_fqdn(host):
+    if not host:
+        return
+
     try:
         host = socket.gethostbyname(host)
         return host

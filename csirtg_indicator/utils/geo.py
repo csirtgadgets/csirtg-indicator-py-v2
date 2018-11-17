@@ -34,6 +34,9 @@ def _resolve(indicator):
     if not CITY_DB:
         return
 
+    if indicator.city and indicator.longitude:
+        return
+
     i = indicator.indicator
 
     if indicator.itype in ['url', 'fqdn']:
