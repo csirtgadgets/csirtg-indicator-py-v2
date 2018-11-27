@@ -16,7 +16,12 @@ import arrow
 from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, FIELDS, FIELDS_TIME, LOG_FORMAT, VERSION, GEO, \
     PEERS, FQDN
 from .utils import parse_timestamp, resolve_itype, is_subdomain, ipv4_normalize
-from .utils.predict import predict_ips, predict_fqdns, predict_urls
+
+try:
+    from .utils.predict import predict_ips, predict_fqdns, predict_urls
+except:
+    # this is handled in the calls
+    pass
 
 if sys.version_info > (3,):
     from urllib.parse import urlparse

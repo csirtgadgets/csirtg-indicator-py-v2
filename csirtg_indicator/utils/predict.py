@@ -22,30 +22,28 @@ def _to_list(indicators):
     return indicators
 
 
-def predict_urls(indicators):
+def _predict_indicators(itype, indicators):
     indicators = _to_list(indicators)
 
-    urls = [(i.indicator, idx) for idx, i in enumerate(indicators) if i.itype == 'url']
+    urls = [(i.indicator, idx) for idx, i in enumerate(indicators) if i.itype == itype]
 
-    predict = predict_url([u[0] for u in urls])
+    if itype == 'url':
+        predict = predict_url([u[0] for u in urls])
+    else:
+        predict = predict_fqdn([u[0] for u in urls])
 
     for idx, u in enumerate(urls):
-        indicators[u[1]].probability = predict[idx][0]
+        indicators[u[1]].probability = float(predict[idx][0])
 
     return indicators
+
+
+def predict_urls(indicators):
+    return _predict_indicators('url', indicators)
 
 
 def predict_fqdns(indicators):
-    indicators = _to_list(indicators)
-
-    urls = [(i.indicator, idx) for idx, i in enumerate(indicators) if i.itype == 'fqdn']
-
-    predict = predict_fqdn([u[0] for u in urls])
-
-    for idx, u in enumerate(urls):
-        indicators[u[1]].probability = predict[idx][0]
-
-    return indicators
+    return _predict_indicators('fqdn', indicators)
 
 
 def predict_ips(indicators):
