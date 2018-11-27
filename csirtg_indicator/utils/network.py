@@ -3,6 +3,7 @@ import dns.resolver
 from dns.resolver import NoAnswer, NXDOMAIN, NoNameservers, Timeout
 from dns.name import EmptyLabel
 import re
+import ipaddress
 
 TIMEOUT = 5
 
@@ -95,3 +96,11 @@ def resolve_peers(indicator):
             })
 
     return indicator
+
+
+def is_valid_ip(i):
+    try:
+        ipaddress.ip_network(i)
+        return True
+    except ValueError as e:
+        return False

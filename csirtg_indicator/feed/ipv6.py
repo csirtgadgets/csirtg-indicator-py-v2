@@ -1,5 +1,5 @@
 import pytricia
-import ipaddress
+from csirtg_indicator.utils.network import is_valid_ip
 
 PERM_WHITELIST = [
     ## TODO -- more
@@ -23,11 +23,8 @@ def process(data, whitelist=[]):
         if 'whitelist' in set(i['tags']):
             continue
 
-        try:
-            ipaddress.ip_network(i['indicator'])
-
-        except ValueError as e:
-            print('skipping invalid address: %s' % i['indicator'])
+        if not is_valid_ip(i['indicator']):
+            continue
 
         if str(i['indicator']) not in wl:
             yield i
