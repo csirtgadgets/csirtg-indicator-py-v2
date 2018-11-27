@@ -14,14 +14,22 @@ def is_valid_ip(i):
     return True
 
 
-def is_ipv6(s):
+def _test_socket(s, version=socket.AF_INET):
     try:
-        socket.inet_pton(socket.AF_INET6, s)
+        socket.inet_pton(version, s)
         return True
+
     except socket.error:
-        pass
+        return None
+
     except UnicodeEncodeError:
         return False
+
+
+def is_ipv6(s):
+    r = _test_socket(s, socket.AF_INET6)
+    if r in [True, False]:
+        return r
 
     try:
         # py2
@@ -39,14 +47,9 @@ def is_ipv6(s):
 
 
 def is_ipv4(s):
-
-    try:
-        socket.inet_pton(socket.AF_INET, s)
-        return True
-    except socket.error:
-        pass
-    except UnicodeEncodeError:
-        return False
+    r = _test_socket(s)
+    if r in [True, False]:
+        return r
 
     if re.match(RE_IPV4, s):
         return True
