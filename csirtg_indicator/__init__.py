@@ -17,6 +17,11 @@ from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, FIELDS, F
     PEERS, FQDN
 from .utils import parse_timestamp, resolve_itype, is_subdomain, ipv4_normalize
 
+try:
+    from .utils.predict import predict_ips, predict_fqdns, predict_urls
+except:
+    # this is handled in the calls
+    pass
 
 if sys.version_info > (3,):
     from urllib.parse import urlparse
@@ -386,17 +391,14 @@ class Indicator(object):
 
         try:
             if self.itype == 'ipv4':
-                from .utils.predict import predict_ips
                 p = predict_ips(self)
                 return [p[0].probability]
 
             if self.itype == 'fqdn':
-                from .utils.predict import predict_fqdns
                 p = predict_fqdns(self)
                 return [p[0].probability]
 
             if self.itype == 'url':
-                from .utils.predict import predict_urls
                 p = predict_urls(self)
                 return [p[0].probability]
 
