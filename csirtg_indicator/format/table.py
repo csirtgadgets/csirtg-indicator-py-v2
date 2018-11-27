@@ -2,6 +2,7 @@ from prettytable import PrettyTable
 import arrow
 from csirtg_indicator import Indicator
 from csirtg_indicator.constants import COLUMNS, MAX_FIELD_SIZE, PYVERSION
+from csirtg_indicator.utils import list_to_csv
 
 if PYVERSION > 2:
     basestring = (str, bytes)
@@ -16,10 +17,7 @@ def _indicator_row(i, cols, max_field_size):
         y = i.get(c, '')
 
         if isinstance(y, list):
-            if len(y) > 0 and isinstance(y[0], dict):
-                y = ''
-            else:
-                y = ','.join(y)
+            y = list_to_csv(y)
 
         if c == 'confidence' and y is None:
             y = 0.0

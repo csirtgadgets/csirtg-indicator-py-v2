@@ -2,6 +2,7 @@ import json
 from csirtg_indicator import Indicator
 from csirtg_indicator.constants import COLUMNS
 from pprint import pprint
+from csirtg_indicator.utils import list_to_csv
 
 
 def _indicator_row(i, cols):
@@ -12,10 +13,7 @@ def _indicator_row(i, cols):
     for c in cols:
         y = i.get(c, u'')
         if isinstance(y, list):
-            if len(y) > 0 and isinstance(y[0], dict):
-                y = ''
-            else:
-                y = u','.join(y)
+            y = list_to_csv(y)
 
         r[c] = y
 

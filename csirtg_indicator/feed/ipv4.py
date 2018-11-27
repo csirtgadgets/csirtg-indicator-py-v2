@@ -1,6 +1,6 @@
 
 import pytricia
-import ipaddress
+from csirtg_indicator.utils.network import is_valid_ip
 
 from pprint import pprint
 
@@ -57,11 +57,8 @@ def process(data=[], whitelist=[]):
 
         i['indicator'] = _normalize(i['indicator'])
 
-        try:
-            ipaddress.ip_network(i['indicator'])
-
-        except ValueError as e:
-            print('skipping invalid address: %s' % i['indicator'])
+        if not is_valid_ip(i['indicator']):
+            continue
 
         if str(i['indicator']) not in wl:
             yield i
