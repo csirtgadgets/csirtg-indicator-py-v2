@@ -15,9 +15,15 @@ except ImportError:
     raise ImportError
 
 
-def predict_urls(indicators):
+def _to_list(indicators):
     if not isinstance(indicators, list):
         indicators = [indicators]
+
+    return indicators
+
+
+def predict_urls(indicators):
+    indicators = _to_list(indicators)
 
     urls = [(i.indicator, idx) for idx, i in enumerate(indicators) if i.itype == 'url']
 
@@ -30,8 +36,7 @@ def predict_urls(indicators):
 
 
 def predict_fqdns(indicators):
-    if not isinstance(indicators, list):
-        indicators = [indicators]
+    indicators = _to_list(indicators)
 
     urls = [(i.indicator, idx) for idx, i in enumerate(indicators) if i.itype == 'fqdn']
 
@@ -44,8 +49,7 @@ def predict_fqdns(indicators):
 
 
 def predict_ips(indicators):
-    if not isinstance(indicators, list):
-        indicators = [indicators]
+    indicators = _to_list(indicators)
 
     ips = [(i, idx) for idx, i in enumerate(indicators) if i.itype == 'ipv4' and not i.probability]
 
