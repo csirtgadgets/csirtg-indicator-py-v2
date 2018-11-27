@@ -5,7 +5,7 @@ import ipaddress
 from ..constants import PYVERSION, RE_IPV4, RE_IPV4_CIDR, RE_IPV4_PADDING, RE_IPV6, RE_FQDN, RE_ASN, RE_EMAIL, \
     RE_HASH, RE_URI_SCHEMES
 
-from .ip import is_ipv4, is_ipv4_cidr, is_ipv6
+from .ip import is_ipv4, is_ipv4_cidr, is_ipv6, is_ip
 
 from .ztime import parse_timestamp
 
@@ -70,22 +70,13 @@ def is_url(s):
 
     u = u.hostname
 
-    if is_ipv6(u):
+    if is_ip(u) or is_fqdn(u):
         return True
 
     if ':' in u:  # 192.168.1.1:81
         u1 = u.split(':')[0]
-        if is_ipv4(u1):
+        if is_ipv4(u1) or is_fqdn(u1):
             return True
-
-        if is_fqdn(u1):
-            return True
-
-    if is_fqdn(u):
-        return True
-
-    if is_ipv4(u):
-        return True
 
 
 def is_url_broken(s):

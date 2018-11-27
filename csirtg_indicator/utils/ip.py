@@ -26,6 +26,10 @@ def _test_socket(s, version=socket.AF_INET):
         return False
 
 
+def is_ip(i):
+    return is_ipv4(i) or is_ipv6(i)
+
+
 def is_ipv6(s):
     r = _test_socket(s, socket.AF_INET6)
     if r in [True, False]:
