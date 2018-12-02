@@ -47,11 +47,11 @@ def resolve_ns(data, t='A', timeout=TIMEOUT, nameserver=None):
         if e.startswith('The DNS operation timed out after'):
             return
 
-        if 'The DNS response does not contain' not in e and \
-                'None of DNS query names exist' not in e:
+        if 'The DNS response does not contain' in e or \
+                'None of DNS query names exist' in e:
             return
 
-        raise e
+        raise
 
     resp = []
     for rdata in answers:
