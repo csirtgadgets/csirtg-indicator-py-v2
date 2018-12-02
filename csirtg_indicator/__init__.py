@@ -479,8 +479,8 @@ class Indicator(object):
             if k in FIELDS_TIME and isinstance(v, datetime):
                 v = v.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-            if isinstance(v, basestring):
-                if k is not 'message' and not k.endswith('_at'):
+            if isinstance(v, basestring) and k is not 'message' and \
+                    not k.endswith('_at'):
                     v = v.lower()
 
             if k == 'confidence':

@@ -26,10 +26,9 @@ def _indicator_row(i, cols, max_field_size):
             y = arrow.get(y).format('YYYY-MM-DDTHH:mm:ss.SSSSS')
             y = '{}Z'.format(y)
         else:
-            if PYVERSION == 2:
-                if isinstance(y, basestring):
-                    y = unicode(y)
-                    y = y.encode('utf-8', 'ignore')
+            if PYVERSION == 2 and isinstance(y, basestring):
+                y = unicode(y)
+                y = y.encode('utf-8', 'ignore')
             y = str(y)
         y = (y[:max_field_size] + '..') if len(y) > max_field_size else y
 

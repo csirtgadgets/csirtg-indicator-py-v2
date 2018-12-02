@@ -37,8 +37,10 @@ def _is_valid(ts):
 
 
 def _format_ts(match):
-    ts = '{}-{}-{}T{}:{}:{}Z'.format(match.group(1), match.group(2), match.group(3), match.group(4),
+    ts = '{}-{}-{}T{}:{}:{}Z'.format(match.group(1), match.group(2),
+                                     match.group(3), match.group(4),
                                      match.group(5), match.group(6))
+
     t = arrow.get(ts, 'YYYY-MM-DDTHH:mm:ss')
     return t
 
@@ -49,7 +51,8 @@ def _fudge_arrow(ts):
         t = arrow.get(ts)
 
     except ValueError as e:
-        match = re.search(r'^(\d{4})(\d{2})(\d{2})T?(\d{2})(\d{2})(\d{2})Z?$', ts)
+        match = re.search(r'^(\d{4})(\d{2})(\d{2})T?(\d{2})(\d{2})(\d{2})Z?$',
+                          ts)
         if match:
             return _format_ts(match)
 

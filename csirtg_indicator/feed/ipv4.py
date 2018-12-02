@@ -1,6 +1,7 @@
 
 import pytricia
 from csirtg_indicator.utils.network import is_valid_ip
+from csirtg_indicator.constants import PYVERSION
 
 from pprint import pprint
 
@@ -30,10 +31,8 @@ def _normalize(i):
 
     i = '.'.join(rv)
 
-    try:
-        i = unicode(i) #py2
-    except Exception:
-        pass
+    if PYVERSION == 2:
+        i = unicode(i)  # py2
 
     return i
 

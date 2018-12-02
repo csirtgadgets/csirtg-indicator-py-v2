@@ -1,4 +1,4 @@
-import os, socket
+import socket
 import dns.resolver
 from dns.resolver import NoAnswer, NXDOMAIN, NoNameservers, Timeout
 from dns.name import EmptyLabel
@@ -21,7 +21,7 @@ def resolve_fqdn(host):
     try:
         host = socket.gethostbyname(host)
         return host
-    except:
+    except Exception as e:
         return
 
 
@@ -41,18 +41,21 @@ def resolve_ns(data, t='A', timeout=TIMEOUT, nameserver=None):
 
     try:
         answers = resolver.query(data, t)
-        resp = []
-        for rdata in answers:
-            resp.append(rdata)
+
     except (NoAnswer, NXDOMAIN, EmptyLabel, NoNameservers, Timeout) as e:
-        if str(e).startswith('The DNS operation timed out after'):
+        e = str(e)
+        if e.startswith('The DNS operation timed out after'):
             return
 
-        if not str(e).startswith('The DNS response does not contain an answer to the question'):
-            if not str(e).startswith('None of DNS query names exist'):
-                return
+        if 'The DNS response does not contain' not in e and \
+                'None of DNS query names exist' not in e:
+            return
 
-        return
+        raise e
+
+    resp = []
+    for rdata in answers:
+        resp.append(rdata)
 
     return resp
 
@@ -70,7 +73,9 @@ def resolve_peers(indicator):
     i = list(reversed(i.split('.')))
     i = '0.{}.{}.{}'.format(i[1], i[2], i[3])
 
-    answers = resolve_ns('{}.{}'.format(i, 'peer.asn.cymru.com', timeout=15), t='TXT')
+    answers = resolve_ns('{}.{}'.format(i, 'peer.asn.cymru.com', timeout=15),
+                         t='TXT')
+
     if answers is None or len(answers) == 0:
         return indicator
 
