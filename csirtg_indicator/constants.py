@@ -1,11 +1,11 @@
+import sys
+import os
+import re
+
 from ._version import get_versions
 __version__ = get_versions()['version']
 VERSION = __version__
 del get_versions
-
-import sys
-import os
-import re
 
 PYVERSION = 2
 if sys.version_info > (3,):
@@ -61,7 +61,8 @@ FIELDS_FQDN = [
     'ns', 'mx', 'cname'
 ]
 
-FIELDS = FIELDS_CORE + FIELDS_GEO + FIELDS_META + FIELDS_IP + FIELDS_TIME + FIELDS_FQDN
+FIELDS = FIELDS_CORE + FIELDS_GEO + FIELDS_META + FIELDS_IP + FIELDS_TIME \
+         + FIELDS_FQDN
 
 
 # regexes
