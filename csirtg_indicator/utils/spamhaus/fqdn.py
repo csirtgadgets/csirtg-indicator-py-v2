@@ -67,7 +67,8 @@ def process(i, confidence=4, resolve_geo=False):
         'description': r['description'],
         'confidence': confidence,
         'provider': 'spamhaus.org',
-        'reference': 'http://www.spamhaus.org/query/dbl?domain=%s' % i.indicator,
+        'reference': 'http://www.spamhaus.org/query/dbl?domain=%s' %
+                     i.indicator,
         'reference_tlp': 'white',
         'last_at': arrow.utcnow(),
     })

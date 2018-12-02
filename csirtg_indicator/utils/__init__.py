@@ -1,9 +1,9 @@
 from pprint import pprint
-import os, socket
+import os
 import re
 import ipaddress
-from ..constants import PYVERSION, RE_IPV4, RE_IPV4_CIDR, RE_IPV4_PADDING, RE_IPV6, RE_FQDN, RE_ASN, RE_EMAIL, \
-    RE_HASH, RE_URI_SCHEMES
+from ..constants import PYVERSION, RE_IPV4_CIDR, RE_IPV4_PADDING, RE_FQDN,\
+    RE_ASN, RE_EMAIL, RE_HASH, RE_URI_SCHEMES
 
 from .ip import is_ipv4, is_ipv4_cidr, is_ipv6, is_ip
 

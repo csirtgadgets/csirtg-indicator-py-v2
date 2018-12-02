@@ -13,8 +13,9 @@ def process(data, whitelist, itype=None):
     if itype == 'fqdn':
         return process_ipv6(data, whitelist)
 
-    # this is left for specific itypes, hashes, urls, things that are generally not a range
-    # yield the indicator if whitelist isn't in it's tag, and it's not in the whitelist
+    # this is left for specific itypes, hashes, urls, things that are generally
+    # not a range yield the indicator if whitelist isn't in it's tag, and it's
+    # not in the whitelist
 
     whitelist = set(whitelist)
 
@@ -28,7 +29,8 @@ def process(data, whitelist, itype=None):
         yield i
 
 
-def aggregate(data, field='indicator', sort='confidence', sort_secondary='reported_at'):
+def aggregate(data, field='indicator', sort='confidence',
+              sort_secondary='reported_at'):
     x = set()
     rv = []
     for d in sorted(data, key=lambda x: x[sort], reverse=True):

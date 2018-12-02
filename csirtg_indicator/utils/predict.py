@@ -8,7 +8,8 @@ try:
 except ImportError:
 
     print('')
-    print('This requires the csirtg_ipsml_tf, csirtg_domainsml_tf and csirtg_urlsml_tf frameworks')
+    print('This requires the csirtg_ipsml_tf, csirtg_domainsml_tf and csirtg_'
+          'urlsml_tf frameworks')
     print('https://csirtgadgets.com/?tag=machine-learningy')
     print('$ pip install csirtg_ipsml_tf csirtg_domainsml_tf csirtg_urlsml_tf')
     print('')
@@ -25,7 +26,8 @@ def _to_list(indicators):
 def _predict_indicators(itype, indicators):
     indicators = _to_list(indicators)
 
-    urls = [(i.indicator, idx) for idx, i in enumerate(indicators) if i.itype == itype]
+    urls = [(i.indicator, idx)
+            for idx, i in enumerate(indicators) if i.itype == itype]
 
     if itype == 'url':
         predict = predict_url([u[0] for u in urls])
@@ -49,7 +51,8 @@ def predict_fqdns(indicators):
 def predict_ips(indicators):
     indicators = _to_list(indicators)
 
-    ips = [(i, idx) for idx, i in enumerate(indicators) if i.itype == 'ipv4' and not i.probability]
+    ips = [(i, idx) for idx, i in enumerate(indicators)
+           if i.itype == 'ipv4' and not i.probability]
 
     if len(ips) == 0:
         return indicators

@@ -14,19 +14,23 @@ CODES = {
     },
     '127.0.0.4': {
         'tags': ['exploit', 'malware'],
-        'description': 'CBL + customised NJABL. 3rd party exploits (proxies, trojans, etc.)',
+        'description': 'CBL + customised NJABL. 3rd party exploits (proxies, '
+                       'trojans, etc.)',
     },
     '127.0.0.5': {
         'tags': ['exploit', 'malware'],
-        'description': 'CBL + customised NJABL. 3rd party exploits (proxies, trojans, etc.)',
+        'description': 'CBL + customised NJABL. 3rd party exploits (proxies, '
+                       'trojans, etc.)',
     },
     '127.0.0.6': {
         'tags': ['exploit', 'malware'],
-        'description': 'CBL + customised NJABL. 3rd party exploits (proxies, trojans, etc.)',
+        'description': 'CBL + customised NJABL. 3rd party exploits (proxies, '
+                       'trojans, etc.)',
     },
     '127.0.0.7': {
         'tags': ['exploit', 'malware'],
-        'description': 'CBL + customised NJABL. 3rd party exploits (proxies, trojans, etc.)',
+        'description': 'CBL + customised NJABL. 3rd party exploits (proxies, '
+                       'trojans, etc.)',
     },
     '127.0.0.9': {
         'tags': 'hijacked',
