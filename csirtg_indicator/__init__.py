@@ -12,14 +12,15 @@ import logging
 import uuid
 import copy
 import arrow
+from pprint import pprint
 
-from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, FIELDS, FIELDS_TIME, LOG_FORMAT, VERSION, GEO, \
-    PEERS, FQDN
+from .constants import PYVERSION, IPV4_PRIVATE_NETS, PROTOCOL_VERSION, \
+    FIELDS, FIELDS_TIME, LOG_FORMAT, VERSION, GEO, PEERS, FQDN
 from .utils import parse_timestamp, resolve_itype, is_subdomain, ipv4_normalize
 
 try:
     from .utils.predict import predict_ips, predict_fqdns, predict_urls
-except:
+except ImportError:
     # this is handled in the calls
     pass
 
@@ -28,8 +29,6 @@ if sys.version_info > (3,):
     basestring = (str, bytes)
 else:
     from urlparse import urlparse
-
-from pprint import pprint
 
 IPV4_PRIVATE = pytricia.PyTricia()
 
@@ -43,7 +42,8 @@ class Indicator(object):
         self.version = VERSION
 
         for k in FIELDS:
-            if k in ['indicator', 'confidence', 'probability', 'count']:  # handle this at the end
+            # handle these at the end
+            if k in ['indicator', 'confidence', 'probability', 'count']:
                 continue
 
             if kwargs.get(k) is None:
@@ -165,7 +165,8 @@ class Indicator(object):
             try:
                 i = codecs.unicode_escape_encode(i.decode('utf-8'))[0]
             except Exception:
-                i = codecs.unicode_escape_encode(i.encode('utf-8', 'ignore').decode('utf-8'))[0]
+                i = codecs.unicode_escape_encode(i.encode('utf-8', 'ignore')
+                                                 .decode('utf-8'))[0]
 
         i = i.lower()
         self.itype = resolve_itype(i)
@@ -283,7 +284,8 @@ class Indicator(object):
         if self.itype not in ['url', 'fqdn']:
             return
 
-        from csirtg_indicator.utils.network import resolve_fqdn, resolve_ns, resolve_url
+        from csirtg_indicator.utils.network import resolve_fqdn, resolve_ns,\
+            resolve_url
 
         d = self.indicator
         if self.itype == 'url':
@@ -361,7 +363,8 @@ class Indicator(object):
         except ImportError:
             print('')
             print('The cif function requires the cifsdk>=4.0')
-            print('$ pip install https://github.com/csirtgadgets/verbose-robot-sdk-py/archive/master.zip')
+            print('$ pip install https://github.com/csirtgadgets/'
+                  'verbose-robot-sdk-py/archive/master.zip')
             print('$ export CIF_TOKEN=1234...')
             print('')
             raise SystemExit
@@ -404,9 +407,11 @@ class Indicator(object):
 
         except ImportError:
             print('')
-            print('This requires the csirtg_ipsml_tf, csirtg_domainsml_tf and csirtg_urlsml_tf frameworks')
+            print('This requires the csirtg_ipsml_tf, csirtg_domainsml_tf and '
+                  'csirtg_urlsml_tf frameworks')
             print('https://csirtgadgets.com/?tag=machine-learning')
-            print('$ pip install csirtg_ipsml_tf csirtg_domainsml_tf csirtg_urlsml_tf')
+            print('$ pip install csirtg_ipsml_tf csirtg_domainsml_tf '
+                  'csirtg_urlsml_tf')
             print('')
             raise SystemExit
 
@@ -450,7 +455,9 @@ class Indicator(object):
         return next(get_lines([self]))
 
     def to_gexf(self):
-        raise NotImplementedError('see: https://networkx.github.io/documentation/networkx-1.10/reference/readwrite.html')
+        raise NotImplementedError('see: https://networkx.github.io/'
+                                  'documentation/networkx-1.10/reference/'
+                                  'readwrite.html')
 
     def __dict__(self):
         s = str(self)
@@ -494,10 +501,13 @@ class Indicator(object):
             sort_keys = True
             indent = 4
         try:
-            return json.dumps(i, indent=indent, sort_keys=sort_keys, separators=(',', ': '))
+            return json.dumps(i, indent=indent, sort_keys=sort_keys,
+                              separators=(',', ': '))
+
         except UnicodeDecodeError as e:
             i['asn_desc'] = unicode(i['asn_desc'].decode('latin-1'))
-            return json.dumps(i, indent=indent, sort_keys=sort_keys, separators=(',', ': '))
+            return json.dumps(i, indent=indent, sort_keys=sort_keys,
+                              separators=(',', ': '))
 
     def __eq__(self, other):
         d1 = self.__dict__()

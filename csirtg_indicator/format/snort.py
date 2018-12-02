@@ -2,7 +2,8 @@ import os
 from csirtg_indicator import Indicator
 
 SID = os.environ.get('CSIRTG_INDICATOR_SNORT_SID', 5000000000)
-THRESHOLD = os.environ.get('CSIRTG_INDICATOR_SNORT_THRESHOLD', 'type limit,track by_src,count 1,seconds 3600')
+THRESHOLD = os.environ.get('CSIRTG_INDICATOR_SNORT_THRESHOLD',
+                           'type limit,track by_src,count 1,seconds 3600')
 SRC = os.environ.get('CSIRTG_INDICATOR_SNORT_SRC', 'any')
 DEST = os.environ.get('CSIRTG_INDICATOR_SNORT_DST', 'any')
 MSG_PREFIX = os.environ.get('CSIRTG_INDICATOR_SNORT_MSG_PREFIX', 'CSIRTG')
@@ -24,7 +25,8 @@ def _dict_to_rule(rule, opts=False):
     ])
 
     if opts:
-        opstring = '; '.join('{}: {}'.format(v, opts[v]) for v in opts if opts[v])
+        opstring = '; '.join('{}: {}'.
+                             format(v, opts[v]) for v in opts if opts[v])
         r = '{} ({};)'.format(r, opstring)
 
     return r
@@ -46,7 +48,8 @@ def _indicator_to_rule(i, sid):
     }
 
     opts = {
-        'msg': '{} - {} - {}'.format(MSG_PREFIX, TLP_DEFAULT, ','.join(i['tags'])),
+        'msg': '{} - {} - {}'.format(MSG_PREFIX, TLP_DEFAULT, ','.
+                                     join(i['tags'])),
         'sid': sid,
         'threshold': THRESHOLD,
         'classtype': CLASSTYPE,

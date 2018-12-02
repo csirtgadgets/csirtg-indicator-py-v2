@@ -3,7 +3,9 @@ __version__ = get_versions()['version']
 VERSION = __version__
 del get_versions
 
-import sys, os, re
+import sys
+import os
+import re
 
 PYVERSION = 2
 if sys.version_info > (3,):
@@ -12,8 +14,9 @@ if sys.version_info > (3,):
 LOG_FORMAT = '%(asctime)s - %(levelname)s - %(name)s[%(lineno)s] - %(message)s'
 PROTOCOL_VERSION = '2.0.0-a.1'
 
-COLUMNS = ['tlp', 'group', 'reported_at', 'indicator', 'asn', 'cc', 'first_at', 'last_at', 'count', 'tags',
-           'description', 'confidence', 'rdata', 'provider', 'probability', 'reference']
+COLUMNS = ['tlp', 'group', 'reported_at', 'indicator', 'asn', 'cc', 'first_at',
+           'last_at', 'count', 'tags', 'description', 'confidence', 'rdata',
+           'provider', 'probability', 'reference']
 
 MAX_FIELD_SIZE = 30
 
@@ -32,7 +35,8 @@ IPV4_PRIVATE_NETS = [
 
 
 FIELDS_CORE = [
-    'indicator', 'itype', 'tlp', 'provider', 'group', 'tlp', 'provider', 'count', 'message', 'tags', 'confidence',
+    'indicator', 'itype', 'tlp', 'provider', 'group', 'tlp', 'provider',
+    'count', 'message', 'tags', 'confidence',
     'description', 'version', 'uuid', 'probability'
 ]
 
@@ -49,7 +53,8 @@ FIELDS_GEO = [
 ]
 
 FIELDS_IP = [
-    'portlist', 'protocol', 'asn', 'asn_desc', 'dest', 'dest_portlist', 'mask', 'rdata', 'peers'
+    'portlist', 'protocol', 'asn', 'asn_desc', 'dest', 'dest_portlist', 'mask',
+    'rdata', 'peers'
 ]
 
 FIELDS_FQDN = [

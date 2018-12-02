@@ -45,7 +45,8 @@ def process(data=[], whitelist=[]):
 
     for y in whitelist:
         y = str(_normalize(y['indicator']))
-        if '/' not in y:  # weird bug work-around it'll insert 172.16.1.60 with a /0 at the end??
+        # weird bug work-around it'll insert 172.16.1.60 with a /0 at the end??
+        if '/' not in y:
             y = '{}/32'.format(y)
 
         wl[y] = True

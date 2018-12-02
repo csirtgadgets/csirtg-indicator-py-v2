@@ -1,13 +1,13 @@
 import re
 from csirtg_indicator import Indicator
 from csirtg_indicator.constants import PYVERSION
+from pprint import pprint
+
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
 
-
-from pprint import pprint
 
 itype = {
     'ipv4': 'ADDR',
@@ -19,7 +19,8 @@ itype = {
     'sha256': 'FILE_HASH',
 }
 
-COLUMNS = ['fields', 'indicator', 'indicator_type', 'meta.desc', 'meta.confidence', 'meta.source', 'meta.do_notice']
+COLUMNS = ['fields', 'indicator', 'indicator_type', 'meta.desc',
+           'meta.confidence', 'meta.source', 'meta.do_notice']
 
 HEADER = '#' + '\t'.join(COLUMNS)
 SEP = '|'

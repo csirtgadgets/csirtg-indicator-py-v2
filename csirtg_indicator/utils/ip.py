@@ -76,5 +76,3 @@ def is_ipv4_cidr(s):
         return True
     except ValueError as e:
         return False
-
-
