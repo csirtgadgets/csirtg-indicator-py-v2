@@ -4,7 +4,7 @@ import pendulum
 import re
 
 
-def human_to_dt(ts):
+def _human_to_dt(ts):
     t = arrow.utcnow()
     if ts == 'now':
         return t
@@ -22,49 +22,64 @@ def human_to_dt(ts):
         return t.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
 
-def parse_timestamp(ts):
+def _is_valid(ts):
     if isinstance(ts, arrow.Arrow):
         return ts
 
-    t = human_to_dt(ts)
+    t = _human_to_dt(ts)
     if t:
         return t
 
+    t = pendulum.parse(ts)
+    t = arrow.get(t)
+    if t:
+        return t
+
+
+def _format_ts(match):
+    ts = '{}-{}-{}T{}:{}:{}Z'.format(match.group(1), match.group(2), match.group(3), match.group(4),
+                                     match.group(5), match.group(6))
+    t = arrow.get(ts, 'YYYY-MM-DDTHH:mm:ss')
+    return t
+
+
+def _fudge_arrow(ts):
+    t = None
     try:
         t = arrow.get(ts)
-        if t.year < 1980:
-            if type(ts) == datetime:
-                ts = str(ts)
-            if len(ts) == 8:
-                ts = '{}T00:00:00Z'.format(ts)
-                t = arrow.get(ts, 'YYYYMMDDTHH:mm:ss')
-
-            if t.year < 1970:
-                raise TypeError('invalid timestamp: %s' % ts)
-
-        return t
 
     except ValueError as e:
-        if len(ts) == 14:
-            match = re.search('^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$', ts)
-            if match:
-                ts = '{}-{}-{}T{}:{}:{}Z'.format(match.group(1), match.group(2), match.group(3), match.group(4),
-                                                 match.group(5), match.group(6))
-                t = arrow.get(ts, 'YYYY-MM-DDTHH:mm:ss')
-                return t
-
-        if len(ts) == 16:
-            # 20160219T224322Z
-            match = re.search('^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$', ts)
-            if match:
-                ts = '{}-{}-{}T{}:{}:{}Z'.format(match.group(1), match.group(2), match.group(3), match.group(4),
-                                                 match.group(5), match.group(6))
-                t = arrow.get(ts, 'YYYY-MM-DDTHH:mm:ss')
-                return t
+        match = re.search(r'^(\d{4})(\d{2})(\d{2})T?(\d{2})(\d{2})(\d{2})Z?$', ts)
+        if match:
+            return _format_ts(match)
 
     except arrow.parser.ParserError as e:
-        t = pendulum.parse(ts)
-        t = arrow.get(t)
+        return
+
+    if not t:
+        return
+
+    if t.year > 1980:
         return t
+
+    if type(ts) == datetime:
+        ts = str(ts)
+
+    if len(ts) == 8:
+        ts = '{}T00:00:00Z'.format(ts)
+        t = arrow.get(ts, 'YYYYMMDDTHH:mm:ss')
+
+    if t.year < 1970:
+        return
+
+
+def parse_timestamp(ts):
+    valid = _is_valid(ts)
+    if valid:
+        return valid
+
+    valid = _fudge_arrow(ts)
+    if valid:
+        return valid
 
     raise TypeError('Invalid Timestamp: %s' % ts)
