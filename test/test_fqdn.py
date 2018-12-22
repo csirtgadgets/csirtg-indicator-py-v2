@@ -81,7 +81,7 @@ def test_fqdn_subdomain():
 
 
 def test_fqdn_random():
-    for d in range(0, 100):
+    for d in range(0, 5):
         assert Indicator(indicator=fake.domain_name()).itype == 'fqdn'
 
 
