@@ -65,5 +65,5 @@ def test_urls_fqdns():
 
 
 def test_urls_random():
-    for d in range(0, 100):
+    for d in range(0, 5):
         assert Indicator(indicator=fake.uri()).itype == 'url'

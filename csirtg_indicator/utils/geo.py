@@ -8,6 +8,7 @@ from geoip2.errors import AddressNotFoundError
 
 from csirtg_indicator import Indicator
 from csirtg_indicator.utils.network import resolve_fqdn, resolve_url
+from csirtg_indicator.constants import FQDN as RESOLVE_FQDN
 
 # more local first, see search path loop
 DB_SEARCH_PATHS = [
@@ -40,6 +41,9 @@ def _resolve(indicator):
     i = indicator.indicator
 
     if indicator.itype in ['url', 'fqdn']:
+        if not RESOLVE_FQDN:
+            return
+
         if indicator.itype == 'url':
             i = resolve_url(i)
 

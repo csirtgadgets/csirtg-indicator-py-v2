@@ -25,6 +25,7 @@ def get_lines(data, filename=OUTPUT_PATH):
 
         output.write('zone "{}" {{type master; file "{}";}};'.
                      format(i['indicator'], filename))
+
         yield output.getvalue()
 
         if isinstance(output, StringIO):

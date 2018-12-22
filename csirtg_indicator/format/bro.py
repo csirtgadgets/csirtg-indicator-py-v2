@@ -22,15 +22,13 @@ itype = {
 COLUMNS = ['fields', 'indicator', 'indicator_type', 'meta.desc',
            'meta.confidence', 'meta.source', 'meta.do_notice']
 
+COLUMNS_DEFAULT = ['indicator', 'itype', 'tags', 'confidence', 'provider']
+
 HEADER = '#' + '\t'.join(COLUMNS)
 SEP = '|'
 
 
-def _i_to_bro(i, cols):
-    if isinstance(i, Indicator):
-        i = i.__dict__()
-
-    cols = ['indicator', 'itype', 'tags', 'confidence', 'provider']
+def _i_to_bro(i, cols=COLUMNS_DEFAULT):
     r = []
     
     if i['itype'] is 'url':
@@ -45,13 +43,6 @@ def _i_to_bro(i, cols):
         if isinstance(y, int):
             y = str(y)
 
-        if PYVERSION == 2:
-            if isinstance(y, unicode):
-                y = y.encode('utf-8')
-        else:
-            if isinstance(y, bytes):
-                y = y.encode('utf-8')
-
         if c is 'itype':
             y = 'Intel::{0}'.format(itype[i[c]])
 
@@ -64,19 +55,22 @@ def _i_to_bro(i, cols):
     return "\t".join(r)
 
 
-def get_lines(data, cols=COLUMNS):
+def get_lines(data, cols=COLUMNS_DEFAULT):
     output = StringIO()
     output.write("{0}\n".format(HEADER))
-    cols = ['indicator', 'itype', 'tags', 'confidence', 'provider']
 
     if not isinstance(data, list):
         data = [data]
 
     for i in data:
+        if isinstance(i, Indicator):
+            i = i.__dict__()
+
         i = _i_to_bro(i, cols)
 
         output.write(i)
         output.write("\n")
+
         yield output.getvalue()
 
         if isinstance(output, StringIO):

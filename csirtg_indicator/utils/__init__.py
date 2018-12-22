@@ -93,29 +93,33 @@ def is_url_broken(s):
 
 
 def resolve_itype(indicator, test_broken=False):
+    itype = False
     if test_broken and is_url_broken(indicator):
-        return 'broken_url'
+        itype = 'broken_url'
 
     elif is_url(indicator):
-        return 'url'
+        itype = 'url'
 
     elif is_hash(indicator):
-        return is_hash(indicator)
+        itype = is_hash(indicator)
 
     elif is_ipv4(indicator) or is_ipv4_cidr(indicator):
-        return 'ipv4'
+        itype = 'ipv4'
 
     elif is_ipv6(indicator):
-        return 'ipv6'
+        itype = 'ipv6'
 
     elif is_email(indicator):
-        return 'email'
+        itype = 'email'
 
     elif is_fqdn(indicator):
-        return 'fqdn'
+        itype = 'fqdn'
 
     elif is_asn(indicator):
-        return 'asn'
+        itype = 'asn'
+
+    if itype:
+        return itype
 
     try:
         error = 'unknown itype for "{}"'.format(indicator)
