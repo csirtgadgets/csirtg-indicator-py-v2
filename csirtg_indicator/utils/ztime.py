@@ -6,6 +6,7 @@ import re
 
 def _human_to_dt(ts):
     t = arrow.utcnow()
+
     if ts == 'now':
         return t
 

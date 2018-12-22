@@ -1,0 +1,30 @@
+# https://docs.codeclimate.com/docs/advanced-configuration
+checks:
+  similar-code:
+    enabled: true
+    config:
+      threshold: 45
+
+  complex-logic:
+    config:
+      threshold: 50
+
+  method-complexity:
+    config:
+      threshold: 10
+
+exclude_patterns:
+  - 'config/'
+  - 'db/'
+  - 'dist/'
+  - 'script/'
+  - '**/spec/'
+  - '**/test/'
+  - '**/tests/'
+  - '**/vendor/'
+  - '**/*.d.ts'
+  - 'csirtg_indicator/_version.py'
+  - 'versioneer.py'
+  - 'csirtg_indicator/constants.py'
+  - 'csirtg_indicator/utils/ztime.py'
+  - 'csirtg_indicator/utils/spamhaus*'
