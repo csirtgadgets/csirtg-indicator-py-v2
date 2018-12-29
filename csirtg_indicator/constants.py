@@ -103,5 +103,5 @@ if PEERS == '1':
     PEERS = True
 
 FQDN = os.getenv('CSIRTG_INDICATORS_RESOLVE_FQDN', False)
-if FQDN == '1' or 'pytest' in sys.modules:
+if FQDN == '1':
     FQDN = True

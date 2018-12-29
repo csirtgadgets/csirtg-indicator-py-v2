@@ -31,7 +31,11 @@ def _is_valid(ts):
     if t:
         return t
 
-    t = pendulum.parse(ts)
+    try:
+        t = pendulum.parse(ts)
+    except pendulum.parsing.exceptions.ParserError:
+        pass
+
     t = arrow.get(t)
     if t:
         return t
@@ -78,6 +82,9 @@ def _fudge_arrow(ts):
 
 
 def parse_timestamp(ts):
+    if isinstance(ts, datetime):
+        return arrow.get(ts)
+
     valid = _is_valid(ts)
     if valid:
         return valid

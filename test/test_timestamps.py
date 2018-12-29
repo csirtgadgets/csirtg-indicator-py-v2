@@ -1,6 +1,16 @@
 from csirtg_indicator import Indicator
 import arrow
 import json
+from csirtg_indicator.utils.ztime import parse_timestamp
+
+TIMESTAMPS = {
+    '2018-12-29 15:32:27 UTC'
+}
+
+
+def test_timestamps():
+    for t in TIMESTAMPS:
+        assert parse_timestamp(t)
 
 
 def test_indicator_timestamps():
@@ -57,3 +67,5 @@ def test_first_at_only():
     i = json.loads(s)
 
     assert i.get('last_at') is None
+
+

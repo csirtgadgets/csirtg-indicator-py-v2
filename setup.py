@@ -21,7 +21,7 @@ if sys.argv[-1] == 'test':
         msg = "%s is not installed. Install your test requirments." % err_msg
         raise ImportError(msg)
     r = os.system('py.test test -v --cov=csirtg_indicator '
-                  '--cov-fail-under=50 --pep8')
+                  '--cov-fail-under=50')
     if r == 0:
         sys.exit()
     else:
@@ -52,7 +52,8 @@ setup(
         'pendulum',
         'prettytable',
         'Faker',
-        'networkx'
+        'networkx',
+        'dnspython'
     ],
     entry_points={
        'console_scripts': [
