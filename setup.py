@@ -52,7 +52,8 @@ setup(
         'pendulum',
         'prettytable',
         'Faker',
-        'networkx'
+        'networkx',
+        'dnspython'
     ],
     entry_points={
        'console_scripts': [
