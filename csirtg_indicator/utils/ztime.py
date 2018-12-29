@@ -82,6 +82,9 @@ def _fudge_arrow(ts):
 
 
 def parse_timestamp(ts):
+    if isinstance(ts, datetime):
+        return arrow.get(ts)
+
     valid = _is_valid(ts)
     if valid:
         return valid
