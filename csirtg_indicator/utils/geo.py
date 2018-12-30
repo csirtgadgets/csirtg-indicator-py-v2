@@ -6,7 +6,6 @@ from pprint import pprint
 import sys
 from geoip2.errors import AddressNotFoundError
 
-from csirtg_indicator import Indicator
 from csirtg_indicator.utils.network import resolve_fqdn, resolve_url
 from csirtg_indicator.constants import FQDN as RESOLVE_FQDN
 
@@ -41,7 +40,7 @@ def _resolve(indicator):
     i = indicator.indicator
 
     if indicator.itype in ['url', 'fqdn']:
-        if not RESOLVE_FQDN:
+        if not indicator.resolve_fqdn:
             return
 
         if indicator.itype == 'url':
@@ -109,7 +108,7 @@ def process(indicator):
     tmp = indicator.indicator
 
     if indicator.itype in ['ipv4', 'ipv6']:
-        match = re.search('^(\S+)\/\d+$', i)
+        match = re.search(r'^(\S+)\\/\d+$', i)
         if match:
             indicator.indicator = match.group(1)
 
@@ -117,6 +116,7 @@ def process(indicator):
         if indicator.indicator:
             _resolve(indicator)
         indicator.indicator = tmp
+
     except ValueError as e:
         indicator.indicator = tmp
 
@@ -124,6 +124,9 @@ def process(indicator):
 
 
 def main():
+    # if you include this up top, it ruins the dep chain
+    from csirtg_indicator import Indicator
+
     i = sys.argv[1]
 
     i = Indicator(i)

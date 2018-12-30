@@ -1,7 +1,5 @@
 import re
 from csirtg_indicator import Indicator
-from csirtg_indicator.constants import PYVERSION
-from pprint import pprint
 
 try:
     from StringIO import StringIO

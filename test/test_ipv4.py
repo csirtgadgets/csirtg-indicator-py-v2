@@ -52,14 +52,12 @@ def test_ipv4_nok():
 def test_ipv4_private():
     data = [
         '128.205.1.0',
-        '2001:1608:10:147::21',
-        '2001:4860:4860::8888',
         u'106.51.30.0',
         '112.133.246.73'
     ]
 
     for d in data:
-        assert not Indicator(indicator=d).is_private()
+        assert not Indicator(d).is_private()
 
     assert Indicator('172.16.30.32').is_private()
 
@@ -89,6 +87,7 @@ def test_ipv4_random():
 
 
 @pytest.mark.skipif(DISABLE_FAST_TESTS, reason='spamhaus test disabled')
+@pytest.mark.xfail
 def test_spamhaus():
     i = Indicator('71.6.146.130', resolve_geo=True)
     assert i.spamhaus()

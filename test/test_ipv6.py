@@ -40,6 +40,18 @@ def test_ipv6_nok():
     _not(data)
 
 
+def test_ipv6_private():
+    data = [
+        '2001:1608:10:147::21',
+        '2001:4860:4860::8888'
+    ]
+
+    for d in data:
+        assert Indicator(d).is_private() is None
+
+    assert Indicator('2001:3::00').is_private()
+
+
 def test_ipv6_random():
     for d in range(0, 100):
         assert Indicator(indicator=fake.ipv6()).itype == 'ipv6'
