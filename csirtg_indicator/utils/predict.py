@@ -1,19 +1,23 @@
 
-try:
-    from csirtg_urlsml_tf import predict as predict_url
-    from csirtg_domainsml_tf import predict as predict_fqdn
-    from csirtg_ipsml_tf import predict as predict_ip
-    from csirtg_ipsml_tf.utils import extract_features as extract_features_ip
+def _load():
+    try:
+        from csirtg_urlsml_tf import predict as predict_url
+        from csirtg_domainsml_tf import predict as predict_fqdn
+        from csirtg_ipsml_tf import predict as predict_ip
+        from csirtg_ipsml_tf.utils import \
+            extract_features as extract_features_ip
 
-except ImportError:
+    except ImportError:
 
-    print('')
-    print('This requires the csirtg_ipsml_tf, csirtg_domainsml_tf and csirtg_'
-          'urlsml_tf frameworks')
-    print('https://csirtgadgets.com/?tag=machine-learningy')
-    print('$ pip install csirtg_ipsml_tf csirtg_domainsml_tf csirtg_urlsml_tf')
-    print('')
-    raise ImportError
+        print('')
+        print(
+            'This requires the csirtg_ipsml_tf, csirtg_domainsml_tf and csirtg_'
+            'urlsml_tf frameworks')
+        print('https://csirtgadgets.com/?tag=machine-learningy')
+        print(
+            '$ pip install csirtg_ipsml_tf csirtg_domainsml_tf csirtg_urlsml_tf')
+        print('')
+        raise ImportError
 
 
 def _to_list(indicators):
@@ -24,6 +28,8 @@ def _to_list(indicators):
 
 
 def _predict_indicators(itype, indicators):
+    _load()
+
     indicators = _to_list(indicators)
 
     urls = [(i.indicator, idx)
@@ -49,6 +55,7 @@ def predict_fqdns(indicators):
 
 
 def predict_ips(indicators):
+    _load()
     indicators = _to_list(indicators)
 
     ips = [(i, idx) for idx, i in enumerate(indicators)

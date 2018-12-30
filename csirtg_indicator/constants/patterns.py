@@ -1,71 +1,4 @@
-import sys
-import os
 import re
-
-from ._version import get_versions
-__version__ = get_versions()['version']
-VERSION = __version__
-del get_versions
-
-PYVERSION = 2
-if sys.version_info > (3,):
-    PYVERSION = 3
-
-LOG_FORMAT = '%(asctime)s - %(levelname)s - %(name)s[%(lineno)s] - %(message)s'
-PROTOCOL_VERSION = '2.0.0-a.1'
-
-COLUMNS = ['tlp', 'group', 'reported_at', 'indicator', 'asn', 'cc', 'first_at',
-           'last_at', 'count', 'tags', 'description', 'confidence', 'rdata',
-           'provider', 'probability', 'reference']
-
-MAX_FIELD_SIZE = 30
-
-IPV4_PRIVATE_NETS = [
-    "0.0.0.0/8",
-    "10.0.0.0/8",
-    "127.0.0.0/8",
-    "192.168.0.0/16",
-    "169.254.0.0/16",
-    "172.16.0.0/12",
-    "192.0.2.0/24",
-    "224.0.0.0/4",
-    "240.0.0.0/5",
-    "248.0.0.0/5"
-]
-
-
-FIELDS_CORE = [
-    'indicator', 'itype', 'tlp', 'provider', 'group', 'tlp', 'provider',
-    'count', 'message', 'tags', 'confidence',
-    'description', 'version', 'uuid', 'probability'
-]
-
-FIELDS_TIME = [
-    'first_at', 'last_at', 'reported_at'
-]
-
-FIELDS_META = [
-    'application', 'reference', 'reference_tlp', 'data'
-]
-
-FIELDS_GEO = [
-    'cc', 'latitude', 'timezone', 'longitude', 'city', 'region'
-]
-
-FIELDS_IP = [
-    'portlist', 'protocol', 'asn', 'asn_desc', 'dest', 'dest_portlist', 'mask',
-    'rdata', 'peers'
-]
-
-FIELDS_FQDN = [
-    'ns', 'mx', 'cname'
-]
-
-FIELDS = FIELDS_CORE + FIELDS_GEO + FIELDS_META + FIELDS_IP + FIELDS_TIME \
-         + FIELDS_FQDN
-
-
-# regexes
 
 RE_IPV4 = re.compile(r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(\d{1,3})$')
 RE_IPV4_CIDR = re.compile(r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\/\d{1,2})$')
@@ -92,16 +25,3 @@ RE_HASH = {
 }
 
 RE_IPV4_PADDING = re.compile(r"(^|\.)0+([^/.])")
-
-
-GEO = os.getenv('CSIRTG_INDICATOR_GEO', False)
-if GEO == '1':
-    GEO = True
-
-PEERS = os.getenv('CSIRTG_INDICATOR_PEERS', False)
-if PEERS == '1':
-    PEERS = True
-
-FQDN = os.getenv('CSIRTG_INDICATORS_RESOLVE_FQDN', False)
-if FQDN == '1':
-    FQDN = True

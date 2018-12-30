@@ -15,9 +15,9 @@ NOK = (
 
 def test_geo_ok():
     for i in OK:
-        assert Indicator(i, resolve_geo=True).asn is not None
+        assert Indicator(i, resolve_geo=True, resolve_fqdn=True).asn is not None
 
 
 def test_geo_nok():
     for i in NOK:
-        assert Indicator(i, resolve_geo=True).asn is None
+        assert Indicator(i, resolve_geo=True, resolve_fqdn=True).asn is None

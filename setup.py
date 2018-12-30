@@ -7,6 +7,9 @@ import sys
 if os.environ.get('USER') == 'vagrant' or os.path.isdir('/vagrant'):
     del os.link
 
+if sys.version_info < (3, 5):
+    sys.exit('Sorry, Python < 3,5 is not supported')
+
 # https://www.pydanny.com/python-dot-py-tricks.html
 if sys.argv[-1] == 'test':
     test_requirements = [

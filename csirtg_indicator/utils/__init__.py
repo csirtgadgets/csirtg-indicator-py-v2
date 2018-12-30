@@ -2,20 +2,15 @@ from pprint import pprint
 import os
 import re
 import ipaddress
-from ..constants import PYVERSION, RE_IPV4_CIDR, RE_IPV4_PADDING, RE_FQDN,\
+from urllib.parse import urlparse
+import importlib
+
+from ..constants import RE_IPV4_CIDR, RE_IPV4_PADDING, RE_FQDN,\
     RE_ASN, RE_EMAIL, RE_HASH, RE_URI_SCHEMES
 
 from .ip import is_ipv4, is_ipv4_cidr, is_ipv6, is_ip
 
 from .ztime import parse_timestamp
-
-try:
-    # py3
-    from urllib.parse import urlparse
-    import importlib
-except ImportError:
-    # py2
-    from urlparse import urlparse
 
 
 def ipv4_normalize(i):
@@ -80,9 +75,6 @@ def is_url(s):
 
 
 def is_url_broken(s):
-    if PYVERSION == 2:
-        s = s.encode('utf-8')
-
     u = urlparse('{}{}'.format('http://', s))
 
     if not re.match(RE_URI_SCHEMES, u.scheme):
@@ -161,9 +153,6 @@ def is_ipv4_net(i):
     if not re.match(RE_IPV4_CIDR, i):
         return False
 
-    if PYVERSION == 2:
-        i = unicode(i)
-
     try:
         ipaddress.ip_network(i)
         return True
@@ -173,8 +162,6 @@ def is_ipv4_net(i):
 
 def _normalize_url(i):
     if resolve_itype(i['indicator'], test_broken=True) == 'broken_url':
-        if PYVERSION == 2:
-            i['indicator'] = i['indicator'].encode('utf-8')
         i['indicator'] = '{}{}'.format('http://', i['indicator'])
 
     return i

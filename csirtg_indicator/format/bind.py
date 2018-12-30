@@ -2,10 +2,7 @@ import time
 import os
 from csirtg_indicator import Indicator
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import StringIO
 
 OUTPUT_PATH = os.getenv('CSIRTG_INDICATOR_BIND_PATH', '/etc/namedb')
 

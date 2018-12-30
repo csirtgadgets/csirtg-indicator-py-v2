@@ -86,6 +86,7 @@ def test_fqdn_random():
 
 
 @pytest.mark.skipif(DISABLE_FAST_TESTS, reason='spamhaus test disabled')
+@pytest.mark.xfail
 def test_spamhaus():
-    i = Indicator('ns2.ndxylfpxuwowlhycfh.pw', resolve_geo=True)
+    i = Indicator('ns2.ndxylfpxuwowlhycfh.pw')
     assert i.spamhaus()
