@@ -18,7 +18,7 @@ FIELDS_GEO = [
 
 FIELDS_IP = [
     'portlist', 'protocol', 'asn', 'asn_desc', 'dest', 'dest_portlist', 'mask',
-    'rdata', 'peers'
+    'rdata', 'rtype', 'peers'
 ]
 
 FIELDS_FQDN = [
