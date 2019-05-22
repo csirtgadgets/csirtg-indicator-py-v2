@@ -36,6 +36,7 @@ class Indicator(PropertiesMixin, LookupMixin, PredictMixin, FormatterMixin,
         # geo, fqdn, peers
         self._init_metadata(**kwargs)
 
+
     def _init_metadata(self, **kwargs):
         self.resolve_geo = kwargs.get('resolve_geo', GEO)
         self.resolve_peers = kwargs.get('resolve_peers', PEERS)
@@ -76,7 +77,7 @@ class Indicator(PropertiesMixin, LookupMixin, PredictMixin, FormatterMixin,
 
         for k in FIELDS_TIME:
             setattr(self, k, kwargs.get(k, None))
-
+        
         self.confidence = kwargs.get('confidence', 0)
         self.count = kwargs.get('count', 1)
         self.probability = kwargs.get('probability', 0)

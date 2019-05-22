@@ -36,7 +36,7 @@ def _is_valid(ts):
     except pendulum.parsing.exceptions.ParserError:
         pass
 
-    t = arrow.get(t)
+    t = arrow.get(ts)
     if t:
         return t
 
