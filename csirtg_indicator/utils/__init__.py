@@ -173,8 +173,13 @@ def url_to_fqdn(u):
 
 
 def list_to_csv(mylist):
-    if len(mylist) > 0 and isinstance(mylist[0], dict):
-        mylist = ''
+    if len(mylist) > 0:
+        if isinstance(mylist[0], dict):
+            mylist = ''
+        elif mylist[0] is None:
+            return
+        else:
+            mylist = u','.join(mylist)
     else:
         mylist = u','.join(mylist)
 

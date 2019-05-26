@@ -3,7 +3,6 @@
 class LookupMixin(object):
     def csirtg(self):
         try:
-            from csirtgsdk.client import Client
             from csirtgsdk.search import Search
         except ImportError:
             print('')
@@ -13,7 +12,7 @@ class LookupMixin(object):
             print('')
             raise SystemExit
 
-        return Search(Client()).search(self.indicator, limit=5)
+        return Search().search(self.indicator, limit=5)
 
     def cif(self):
         try:
