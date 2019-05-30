@@ -34,5 +34,18 @@ def test_format_snort(indicator):
     assert "example.com" in n
 
 
+def test_format_snort_extra_params(indicator):
+    data = [
+        indicator, indicator
+    ]
+
+    text = "\n".join(list(get_lines(data, cols=["tlp", "probability"])))
+    assert text
+    assert re.findall(RULE_PATTERN, text)
+
+    n = indicator.to_snort()
+    assert "example.com" in n
+
+
 if __name__ == '__main__':
     test_format_snort()
