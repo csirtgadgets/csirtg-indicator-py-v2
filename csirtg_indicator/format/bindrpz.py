@@ -41,7 +41,7 @@ def get_lines(data, filename=OUTPUT_PATH, **kwargs):
         if i['itype'] != 'fqdn':
             continue
 
-        output.write('{}        CNAME .'.format(i['indicator'], filename))
+        output.write('{}        CNAME .\n'.format(i['indicator'], filename))
         output.write('*.{}        CNAME .'.format(i['indicator'], filename))
         yield output.getvalue()
 
