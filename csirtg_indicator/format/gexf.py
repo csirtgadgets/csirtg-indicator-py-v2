@@ -7,7 +7,7 @@ from pprint import pprint
 PATH = os.getenv('GEXF_PATH', 'indicators.gexf')
 
 
-def get_lines(data, path=PATH):
+def get_lines(data, path=PATH, **kwargs):
     g = nx.Graph()
 
     if not isinstance(data, list):
