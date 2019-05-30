@@ -65,7 +65,7 @@ def _indicator_to_rule(i, sid):
     return _dict_to_rule(r, opts)
 
 
-def get_lines(data, sid=SID):
+def get_lines(data, sid=SID, **kwargs):
     for i in data:
         if isinstance(i, Indicator):
             i = i.__dict__()
