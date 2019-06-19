@@ -6,6 +6,10 @@ import os
 
 DISABLE_FAST_TESTS = os.getenv('DISABLE_NETWORK_TESTS', False)
 
+OUTLIERS = [
+    '18.5.4.0/8'
+]
+
 
 def _not(data):
     for d in data:
@@ -41,12 +45,7 @@ def test_ipv4_ok():
 def test_ipv4_nok():
     data = ['127.0.0.0/1', '128.205.0.0/8']
     for d in data:
-        try:
-            Indicator(indicator=d)
-        except TypeError as e:
-            pass
-        else:
-            raise SystemError('mis-handled network')
+        Indicator(indicator=d)
 
 
 def test_ipv4_private():
@@ -84,6 +83,11 @@ def test_ipv4_padded():
 def test_ipv4_random():
     for d in range(0, 100):
         assert Indicator(indicator=fake.ipv4()).itype == 'ipv4'
+
+
+def test_ipv4_outliers():
+    for i in OUTLIERS:
+        assert Indicator(i).itype == 'ipv4'
 
 
 @pytest.mark.skipif(DISABLE_FAST_TESTS, reason='spamhaus test disabled')
