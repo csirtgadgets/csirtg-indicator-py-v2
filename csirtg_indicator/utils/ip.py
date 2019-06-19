@@ -7,7 +7,7 @@ from csirtg_indicator.constants import RE_IPV4, RE_IPV4_CIDR
 
 def is_valid_ip(i):
     try:
-        ipaddress.ip_network(i)
+        ipaddress.ip_network(i, strict=False)
     except ValueError as e:
         return False
 
@@ -36,14 +36,6 @@ def is_ipv6(s):
         return r
 
     try:
-        # py2
-        s = unicode(s)
-    except UnicodeDecodeError:
-        return False
-    except NameError:
-        pass
-
-    try:
         ipaddress.IPv6Network(s)
         return True
     except ipaddress.AddressValueError:
@@ -60,19 +52,12 @@ def is_ipv4(s):
 
 
 def is_ipv4_cidr(s):
-    if not re.match(RE_IPV4_CIDR, s):
+    m = re.match(RE_IPV4_CIDR, s)
+    if not m:
         return False
 
     try:
-        # py2
-        s = unicode(s)
-    except UnicodeDecodeError:
-        return False
-    except NameError:
-        pass
-
-    try:
-        ipaddress.ip_network(s)
+        ipaddress.ip_network(s, strict=False)
         return True
     except ValueError as e:
         return False

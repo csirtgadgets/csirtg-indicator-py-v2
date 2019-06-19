@@ -47,7 +47,7 @@ setup(
     keywords=['network', 'security'],
     author="Wes Young",
     author_email="wes@csirtgadgets.com",
-    packages=find_packages(),
+    packages=find_packages(exclude=['test']),
     install_requires=[
         'arrow',
         'pytricia',
